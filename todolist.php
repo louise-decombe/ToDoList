@@ -6,7 +6,7 @@
         $query = "
          SELECT * FROM todo
          WHERE id_utilisateur = '".$_SESSION["id_utilisateur"]."'
-         ORDER BY todo_id DESC
+         ORDER BY id DESC
         ";
 
         $statement = $connect->prepare($query);
@@ -43,11 +43,11 @@
          </nav>
 
            </header>
+
+<?php if (isset($_SESSION['id_utilisateur'])) { ?>
+
              <div class="container">
                  <div class="header">
-                     <div class="clear">
-                         <i class="fa fa-refresh"></i>
-                     </div>
                      <div id="date"></div>
                  </div>
           <br />
@@ -58,7 +58,9 @@
            <div class="panel panel-default">
             <div class="panel-heading">
              <div class="row">
-              <div class="col-md-9">
+              <div class="col-md-9"> <div class="clear">
+                   <i class="fa fa-refresh"></i>
+               </div>
                <h3 class="panel-title">Date du jour</h3>
                <img src="" alt="">
               </div>
@@ -68,10 +70,10 @@
              </div>
             </div>
               <div class="panel-body">
-               <form method="post" id="to_do_form">
+               <form method="post" id="todo_formulaire">
                 <span id="message"></span>
                 <div class="input-group">
-                 <input type="text" name="task_name" id="task_name" class="form-control input-lg" autocomplete="off" placeholder="Titre..." />
+                 <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
                  <div class="input-group-btn">
                   <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
                  </div>
@@ -80,23 +82,80 @@
                <br />
                <div class="list-group">
                <?php
-               foreach($result as $row)
-               {
-                $style = '';
-                if($row["statut"] == 'oui')
-                {
-                 $style = 'text-decoration: line-through';
-                }
-                echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].' <span class="badge" data-id="'.$row["id"].'">X</span></a>';
+               foreach ($result as $row) {
+                   $style = '';
+                   if ($row["statut"] == 'oui') {
+                       $style = 'text-decoration: line-through';
+                   }
+                   echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].' <span class="badge" data-id="'.$row["id"].'">X</span></a>';
                }
                ?>
                </div>
-              </div>
+             </div>
              </div>
           </div>
+        <?php } else {
+                   echo "vous n'avez pas accès à cette page, connectez-vous pour commencer";
+               }
+         ?>
          </body>
+         <script>
+
+          $(document).ready(function(){
+
+           $(document).on('submit', '#todo_formulaire', function(event){
+            event.preventDefault();
+
+            if($('#nom_tache').val() == '')
+            {
+             $('#message').html('<div class="alert alert-danger">Il faut écrire quelque chose</div>');
+             return false;
+            }
+            else
+            {
+             $('#submit').attr('disabled', 'disabled');
+             $.ajax({
+              url:"ajout.php",
+              method:"POST",
+              data:$(this).serialize(),
+              success:function(data)
+              {
+               $('#submit').attr('disabled', false);
+               $('#todo_formulaire')[0].reset();
+               $('.list-group').prepend(data);
+              }
+             })
+            }
+           });
+
+           $(document).on('click', '.list-group-item', function(){
+            var id = $(this).data('id');
+            $.ajax({
+             url:"maj.php",
+             method:"POST",
+             data:{id:id},
+             success:function(data)
+             {
+              $('#list-group-item-'+id).css('text-decoration', 'line-through');
+             }
+            })
+           });
+
+           $(document).on('click', '.badge', function(){
+            var id = $(this).data('id');
+            $.ajax({
+             url:"supprimer.php",
+             method:"POST",
+             data:{id:id},
+             success:function(data)
+             {
+              $('#list-group-item-'+id).fadeOut('slow');
+             }
+            })
+           });
+
+          });
+         </script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
         </html>
-
-        <script>
-
-         $(document
