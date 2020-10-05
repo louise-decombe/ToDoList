@@ -11,13 +11,11 @@ button {
     background-color: white;
     border: 1px  #0082b0;
     color: black;
-    width: 20%;
 }
 
 button:hover{
   background-color: blue;
   color:white;
-  width: 20%;
 }
 
 body {
@@ -27,6 +25,11 @@ body {
 
 h3 {
 
+}
+
+.button {
+  margin: 2%;
+  font-size: 30px;
 }
 
 /*---------------------------------------------------------------------*/

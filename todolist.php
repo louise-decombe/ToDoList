@@ -42,9 +42,7 @@
 
  <div class="collapse navbar-collapse" id="navbarNav">
    <ul class="navbar-nav">
-     <li class="nav-item active">
-       <a class="nav-link" href="#">Déconnexion <span class="sr-only">(current)</span></a>
-     </li>
+
      <li class="nav-item">
        <a class="nav-link" href="#">Mon compte</a>
      </li>
@@ -68,7 +66,8 @@
           <br />
           <br />
           <div class="container">
-           <h1 align="center">Votre liste <?php echo $_SESSION['login']; ?></h1>
+           <h1 align="center">Votre liste <?php echo $_SESSION['login']; ?> <button type="button" class="btn btn-info">Déconnexion</button>
+</h1>
            <br />
            <div class="panel panel-default">
             <div class="panel-heading">
@@ -95,6 +94,7 @@
                 <span id="message"></span>
                 <div class="input-group">
                  <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
+                 <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
                  <div class="input-group-btn">
                   <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
                  </div>
@@ -108,7 +108,7 @@
                    if ($row["statut"] == 'oui') {
                        $style = 'text-decoration: line-through';
                    }
-                   echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].' <span class="badge" data-id="'.$row["id"].'">X</span>'.'</a><button>voir plus</button>';
+                   echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].'<span class="badge" data-id="'.$row["id"].'">X</span>'.'<span class="button"><button type="button" class="btn btn-dark">+</button></span>'.'';
                }
                ?>
                </div>
@@ -119,64 +119,10 @@
                    echo "vous n'avez pas accès à cette page, connectez-vous pour commencer";
                }
          ?>
-         </body>
-         <script>
+</body>
+<script src="js/script_todolist.js">
 
-          $(document).ready(function(){
-
-           $(document).on('submit', '#todo_formulaire', function(event){
-            event.preventDefault();
-
-            if($('#nom_tache').val() == '')
-            {
-             $('#message').html('<div class="alert alert-danger">Il faut écrire quelque chose</div>');
-             return false;
-            }
-            else
-            {
-             $('#submit').attr('disabled', 'disabled');
-             $.ajax({
-              url:"ajout.php",
-              method:"POST",
-              data:$(this).serialize(),
-              success:function(data)
-              {
-               $('#submit').attr('disabled', false);
-               $('#todo_formulaire')[0].reset();
-               $('.list-group').prepend(data);
-              }
-             })
-            }
-           });
-
-           $(document).on('click', '.list-group-item', function(){
-            var id = $(this).data('id');
-            $.ajax({
-             url:"maj.php",
-             method:"POST",
-             data:{id:id},
-             success:function(data)
-             {
-              $('#list-group-item-'+id).css('text-decoration', 'line-through');
-             }
-            })
-           });
-
-           $(document).on('click', '.badge', function(){
-            var id = $(this).data('id');
-            $.ajax({
-             url:"supprimer.php",
-             method:"POST",
-             data:{id:id},
-             success:function(data)
-             {
-              $('#list-group-item-'+id);
-             }
-            })
-           });
-
-          });
-         </script>
+</script>
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
         </html>
