@@ -40,6 +40,21 @@
              </svg>    Ma TODO Liste
            </a>
 
+ <div class="collapse navbar-collapse" id="navbarNav">
+   <ul class="navbar-nav">
+     <li class="nav-item active">
+       <a class="nav-link" href="#">Déconnexion <span class="sr-only">(current)</span></a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link" href="#">Mon compte</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link" href="#">Ma todolist</a>
+     </li>
+
+   </ul>
+ </div>
+
          </nav>
 
            </header>
@@ -53,16 +68,22 @@
           <br />
           <br />
           <div class="container">
-           <h1 align="center">Votre liste visiteur</h1>
+           <h1 align="center">Votre liste <?php echo $_SESSION['login']; ?></h1>
            <br />
            <div class="panel panel-default">
             <div class="panel-heading">
              <div class="row">
-              <div class="col-md-9"> <div class="clear">
-                   <i class="fa fa-refresh"></i>
-               </div>
-               <h3 class="panel-title">Date du jour</h3>
+              <div class="col-md-9">
+               <h3 class="panel-title">
+                 <?php
+                 setlocale(LC_TIME, 'fra_fra');
+                 echo strftime('%A %d %B %Y à %H:%M');
+                 ?>
+               </h3>
                <img src="" alt="">
+               <div class="clear">
+                    <i class="fa fa-refresh"></i>
+                </div>
               </div>
               <div class="col-md-3">
 
@@ -87,7 +108,7 @@
                    if ($row["statut"] == 'oui') {
                        $style = 'text-decoration: line-through';
                    }
-                   echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].' <span class="badge" data-id="'.$row["id"].'">X</span></a>';
+                   echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].' <span class="badge" data-id="'.$row["id"].'">X</span>'.'</a><button>voir plus</button>';
                }
                ?>
                </div>
@@ -149,7 +170,7 @@
              data:{id:id},
              success:function(data)
              {
-              $('#list-group-item-'+id).fadeOut('slow');
+              $('#list-group-item-'+id);
              }
             })
            });

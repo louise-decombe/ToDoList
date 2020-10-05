@@ -6,4 +6,6 @@ session_start();
 
 $_SESSION["id_utilisateur"] = "1";
 
+$_SESSION["login"]="sarah";
+
 ?>
