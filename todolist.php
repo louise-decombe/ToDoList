@@ -59,7 +59,8 @@
             <div class="panel-heading">
              <div class="row">
               <div class="col-md-9">
-               <h3 class="panel-title">Mes tâches</h3>
+               <h3 class="panel-title">Date du jour</h3>
+               <img src="" alt="">
               </div>
               <div class="col-md-3">
 
@@ -70,7 +71,7 @@
                <form method="post" id="to_do_form">
                 <span id="message"></span>
                 <div class="input-group">
-                 <input type="text" name="task_name" id="task_name" class="form-control input-lg" autocomplete="off" placeholder="Title..." />
+                 <input type="text" name="task_name" id="task_name" class="form-control input-lg" autocomplete="off" placeholder="Titre..." />
                  <div class="input-group-btn">
                   <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
                  </div>
@@ -82,11 +83,11 @@
                foreach($result as $row)
                {
                 $style = '';
-                if($row["task_status"] == 'yes')
+                if($row["statut"] == 'oui')
                 {
                  $style = 'text-decoration: line-through';
                 }
-                echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["task_list_id"].'" data-id="'.$row["task_list_id"].'">'.$row["task_details"].' <span class="badge" data-id="'.$row["task_list_id"].'">X</span></a>';
+                echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].' <span class="badge" data-id="'.$row["id"].'">X</span></a>';
                }
                ?>
                </div>
