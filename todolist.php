@@ -96,7 +96,7 @@ $id_utilisateur = $_SESSION['id_utilisateur'];
                    if ($row["statut"] == 'oui') {
                        $style = 'text-decoration: line-through';
                    }
-                   echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].'<span class="badge" data-id="'.$row["id"].'">X</span>'.'<span class="button"><button type="button" class="btn btn-dark">+</button></span>'.'';
+     echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].'<span class="badge" data-id="'.$row["id"].'">X</span>'.'<span class="button"><button type="button" class="btn btn-dark">+</button></span>'.'';
                }
                ?>
                </div>

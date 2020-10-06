@@ -10,5 +10,4 @@ $user= new user($db);
 require 'traitement.php';
 $todolist= new Todolist($db);
 
-var_dump($todolist);
 ?>
