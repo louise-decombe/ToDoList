@@ -24,29 +24,13 @@ if (isset($_GET['ajouter'])) {
 // si on souhaite surligner la tâche au clique pour dire qu'elle est terminée
 if (isset($_GET['maj'])) {
 
+// on sélectionn l'id
   if($_POST["id"])
   {
-
-    $date_finished = date("Y-m-d H:i:s");
-
-   $data = array(
-    ':statut'  => 'oui',
-    ':id'  => $_POST["id"],
-    'finished_at' => $date_finished
-   );
-
-   $query = "UPDATE todo
-   SET statut = :statut, finished_at = :finished_at
-   WHERE id = :id
-   ";
-
-   $statement = $connect->prepare($query);
-   if($statement->execute($data))
-   {
-    echo 'terminé pour aujourd\'hui';
-   }
+$date_finished = date("Y-m-d H:i:s");
+$id = $_POST['id'];
+$statut= 'oui';
   }
-
 }
 
 //si on souhaite supprimer la tâche

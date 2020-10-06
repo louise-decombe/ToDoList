@@ -1,21 +1,4 @@
 
-        <?php
-
-        include('db.php');
-
-        $query = "
-         SELECT * FROM todo
-         WHERE id_utilisateur = '".$_SESSION["id_utilisateur"]."'
-         ORDER BY id DESC
-        ";
-
-        $statement = $connect->prepare($query);
-
-        $statement->execute();
-
-        $result = $statement->fetchAll();
-
-        ?>
 
         <!DOCTYPE html>
         <html>
@@ -56,7 +39,21 @@
 
            </header>
 
-<?php if (isset($_SESSION['id_utilisateur'])) { ?>
+<?php if(isset($_SESSION['id_utilisateur'])) {
+
+          $query = "
+           SELECT * FROM todo
+           WHERE id_utilisateur = '".$_SESSION["id_utilisateur"]."'
+           ORDER BY id DESC
+          ";
+
+          $statement = $connect->prepare($query);
+
+          $statement->execute();
+
+          $result = $statement->fetchAll();
+
+          ?>
 
              <div class="container">
                  <div class="header">
@@ -115,7 +112,8 @@
              </div>
           </div>
         <?php } else {
-                   echo "vous n'avez pas accès à cette page, connectez-vous pour commencer";
+                   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
+                   <a href='index.php'> connexion/inscription </a></center> ";
                }
          ?>
 </body>
