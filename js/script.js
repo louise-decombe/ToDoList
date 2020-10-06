@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    /**SHOW CONNECT FROM */
     $('#connect').click(function () {
         $.get(
             'connexion.php',
@@ -14,6 +15,7 @@ $(document).ready(function () {
 
 
     })
+    /** SHOW REGISTER FORM */
     $('#register').click(function () {
         $.get(
             'register.php',
@@ -26,7 +28,7 @@ $(document).ready(function () {
             }
         )
     })
-
+    /**PROCESS REGISTER FORM */
     $('#register_form').submit(function (event) {
 
         event.preventDefault();
@@ -87,6 +89,8 @@ $(document).ready(function () {
 
 
     })
+
+/** PROCESS CONNECT FORM */
 
     $('#connect_form').submit(function (event) {
 
