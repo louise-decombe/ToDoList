@@ -1,5 +1,9 @@
 
+<?php
 
+include('class/config.php');
+
+ ?>
         <!DOCTYPE html>
         <html>
          <head>
@@ -35,19 +39,12 @@
          </nav>
            </header>
 
-<?php if(isset($_SESSION['id_utilisateur'])) {
+<?php //if(isset($_SESSION['id_utilisateur'])) {
 
-          $query = "
-           SELECT * FROM todo
-           WHERE id_utilisateur = '".$_SESSION["id_utilisateur"]."'
-           ORDER BY id DESC
-          ";
+$_SESSION['id_utilisateur'] = 1;
 
-          $statement = $connect->prepare($query);
-
-          $statement->execute();
-
-          $result = $statement->fetchAll();
+$id_utilisateur = $_SESSION['id_utilisateur'];
+ $todolist->select($id_utilisateur);
 
           ?>
 
@@ -106,10 +103,10 @@
              </div>
              </div>
           </div>
-        <?php } else {
-                   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
-                   <a href='index.php'> connexion/inscription </a></center> ";
-               }
+        <?php //} else {
+                //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
+                  // <a href='index.php'> connexion/inscription </a></center> ";
+               //}
          ?>
 </body>
 <script src="js/script_todolist.js">

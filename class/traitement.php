@@ -11,6 +11,16 @@ class Todolist
         $this->connect = $this->db->connect();
     }
 
+  public function select($id_utilisateur){
+
+    $req = $this->connect->prepare("SELECT * FROM todo WHERE id_utilisateur = ?");
+    $req->execute([$id_utilisateur]);
+    $data_todolist = $req->fetchAll();
+
+    return $data_todolist ;
+
+  }
+
     public function ajout($id_utilisateur, $nom, $create_at, $finished_at, $description, $statut, $assigned_to)
     {
         $query = $this->connect->prepare("INSERT INTO todo (id_utilisateur, nom, create_at, finished_at, description, statut, assigned_to) VALUES (:id_utilisateur,:nom,:create_at,description,statut,assigned_to)");
