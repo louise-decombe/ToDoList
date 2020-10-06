@@ -10,6 +10,8 @@ class user {
 
         $this->db= $db;
         $this->connect = $this->db->connect();
+        
+
     }
 
     public function register($password, $password_confirm, $login){
@@ -19,6 +21,8 @@ class user {
            
             $req_login->execute([$login]);
             $compare_login= $req_login->fetchall();
+            
+
         }
         catch(PDOException $e){
             echo  $e->getMessage();

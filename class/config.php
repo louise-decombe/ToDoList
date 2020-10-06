@@ -8,7 +8,5 @@ require 'user.php';
 $user= new user($db);
 
 
-require 'traitement.php'
-$todolist = new todolist($db);
 
 ?>
