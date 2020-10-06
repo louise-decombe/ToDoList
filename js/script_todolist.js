@@ -12,7 +12,7 @@ $(document).ready(function(){
   {
    $('#submit').attr('disabled', 'disabled');
    $.ajax({
-    url:"ajout.php",
+    url:"traitement/ajout.php",
     method:"POST",
     data:$(this).serialize(),
     success:function(data)
@@ -28,7 +28,7 @@ $(document).ready(function(){
  $(document).on('click', '.list-group-item', function(){
   var id = $(this).data('id');
   $.ajax({
-   url:"maj.php",
+   url:"traitement/maj.php",
    method:"POST",
    data:{id:id},
    success:function(data)
@@ -41,7 +41,7 @@ $(document).ready(function(){
  $(document).on('click', '.badge', function(){
   var id = $(this).data('id');
   $.ajax({
-   url:"supprimer.php",
+   url:"traitement/supprimer.php",
    method:"POST",
    data:{id:id},
    success:function(data)
