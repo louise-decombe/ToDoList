@@ -12,7 +12,7 @@ $(document).ready(function(){
   {
    $('#submit').attr('disabled', 'disabled');
    $.ajax({
-    url:"traitement/ajout.php",
+    url:"traitement/todolist_process?ajout.php",
     method:"POST",
     data:$(this).serialize(),
     success:function(data)
@@ -28,7 +28,7 @@ $(document).ready(function(){
  $(document).on('click', '.list-group-item', function(){
   var id = $(this).data('id');
   $.ajax({
-   url:"traitement/maj.php",
+  url:"traitement/todolist_process?maj.php",
    method:"POST",
    data:{id:id},
    success:function(data)
@@ -41,7 +41,7 @@ $(document).ready(function(){
  $(document).on('click', '.badge', function(){
   var id = $(this).data('id');
   $.ajax({
-   url:"traitement/supprimer.php",
+    url:"traitement/todolist_process?supprimer.php",
    method:"POST",
    data:{id:id},
    success:function(data)

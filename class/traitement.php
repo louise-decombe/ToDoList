@@ -22,12 +22,15 @@ public function ajout($id_utilisateur, $nom, $create_at, $finished_at, $descript
   $query->execute();
 }
 
-
 public function supprimer($id){
 
 }
 
 public function maj($finished_at,$statut,$id){
+
+
+
+
 }
 
 };
