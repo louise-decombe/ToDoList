@@ -12,7 +12,6 @@ class Todolist
     }
 
   public function select($id_utilisateur){
-
     $req = $this->connect->prepare("SELECT * FROM todo WHERE id_utilisateur = ?");
     $req->execute([$id_utilisateur]);
     $data_todolist = $req->fetchAll();
@@ -34,6 +33,11 @@ VALUES(:id_utilisateur,:nom,:statut,:create_at,:finished_at,:description,:assign
         $query->bindParam(':assign_to', $assign_to);
         $query->execute();
     }
+
+
+
+
+
 
     public function supprimer($id)
     {

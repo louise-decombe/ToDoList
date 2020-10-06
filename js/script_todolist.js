@@ -12,8 +12,8 @@ $(document).ready(function(){
   {
    $('#submit').attr('disabled', 'disabled');
    $.ajax({
-    url:"traitement/todolist_process?ajout.php",
-    method:"POST",
+    url:"traitement/todolist_process.php?ajouter",
+    method:"GET",
     data:$(this).serialize(),
     success:function(data)
     {
@@ -29,7 +29,7 @@ $(document).ready(function(){
   var id = $(this).data('id');
   $.ajax({
   url:"traitement/todolist_process?maj.php",
-   method:"POST",
+   method:"GET",
    data:{id:id},
    success:function(data)
    {
@@ -42,7 +42,7 @@ $(document).ready(function(){
   var id = $(this).data('id');
   $.ajax({
     url:"traitement/todolist_process?supprimer.php",
-   method:"POST",
+   method:"GET",
    data:{id:id},
    success:function(data)
    {

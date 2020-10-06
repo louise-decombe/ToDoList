@@ -55,7 +55,7 @@ $id_utilisateur = $_SESSION['id_utilisateur'];
           <br />
           <br />
           <div class="container">
-           <h1 align="center">Votre liste <?php echo $_SESSION['login']; ?> <button type="button" class="btn btn-info">Déconnexion</button>
+           <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button>
 </h1>
            <br />
            <div class="panel panel-default">
@@ -78,7 +78,7 @@ $id_utilisateur = $_SESSION['id_utilisateur'];
              </div>
             </div>
               <div class="panel-body">
-               <form method="post" id="todo_formulaire">
+               <form method="get" id="todo_formulaire">
                 <span id="message"></span>
                 <div class="input-group">
                  <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
@@ -96,7 +96,7 @@ $id_utilisateur = $_SESSION['id_utilisateur'];
                    if ($row["statut"] == 'oui') {
                        $style = 'text-decoration: line-through';
                    }
-     echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].'<span class="badge" data-id="'.$row["id"].'">X</span>'.'<span class="button"><button type="button" class="btn btn-dark">+</button></span>'.'';
+                   echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["id"].'" data-id="'.$row["id"].'">'.$row["nom"].'<span class="badge" data-id="'.$row["id"].'">X</span>'.'<span class="button"><button type="button" class="btn btn-dark">+</button></span>'.'';
                }
                ?>
                </div>

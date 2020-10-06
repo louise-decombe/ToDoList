@@ -8,14 +8,15 @@ require "../class/config.php";
 // si on souhaite ajouter une tâche à la todolist
 if (isset($_GET['ajouter'])) {
 
-    if ($_POST["nom_tache"]) {
+
+    if ($_GET["nom_tache"]) {
 
         $id_utilisateur = $_SESSION['id_utilisateur'];
-        $nom = $_POST['nom_tache'];
+        $nom = $_GET['nom_tache'];
         $statut = "non";
         $create_at = date("Y-m-d H:i:s");
         $finished_at = null;
-        $description = $_POST['description'];
+        $description = $_GET['description'];
         $assigned_to = null;
         $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to);
         echo  $result;
