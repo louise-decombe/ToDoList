@@ -1,33 +1,31 @@
 $(document).ready(function () {
-
+    
     /**SHOW CONNECT FROM */
-    $('#connect').click(function () {
-        $.get(
-            'connexion.php',
-            $('#connect_form'),
-            function (data) {
 
-                $('main').html(data);
-                console.log("ok")
+    async function showConnect(){
+        const result = $('main').load("connexion.php #connect_section")
 
-            }
-        )
-
-
+        return result;
+    }
+    
+    $('#connect').click(function(){
+        showConnect();
+        
     })
+
     /** SHOW REGISTER FORM */
-    $('#register').click(function () {
-        $.get(
-            'register.php',
-            $('#register_form'),
-            function (data) {
 
-                $('main').html(data);
-                console.log("ok")
+    async function showRegister(){
+        const result = $('main').load("register.php #register_section")
 
-            }
-        )
+        return result;
+    }
+
+    $('#register').click(function(){
+        showRegister();
     })
+    
+
     /**PROCESS REGISTER FORM */
     $('#register_form').submit(function (event) {
 
@@ -64,10 +62,10 @@ $(document).ready(function () {
                             'connexion.php',
                             $('#connect_form'),
                             function (data) {
-                
-                                $('main').html(data);
+
+                                $('body').html(data);
                                 console.log("ok")
-                
+
                             }
                         )
 
@@ -90,7 +88,7 @@ $(document).ready(function () {
 
     })
 
-/** PROCESS CONNECT FORM */
+    /** PROCESS CONNECT FORM */
 
     $('#connect_form').submit(function (event) {
 
@@ -109,7 +107,6 @@ $(document).ready(function () {
                 data: {
                     login: login,
                     password: password,
-
 
                 },
 

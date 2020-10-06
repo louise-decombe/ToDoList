@@ -28,5 +28,3 @@ if($_POST["id"])
   echo 'terminé pour aujourd\'hui';
  }
 }
-
-?>

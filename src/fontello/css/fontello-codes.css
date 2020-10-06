@@ -1,0 +1,5 @@
+
+.icon-facebook:before { content: '\66'; } /* 'f' */
+.icon-instagram:before { content: '\69'; } /* 'i' */
+.icon-mail-alt:before { content: '\6d'; } /* 'm' */
+.icon-twitter:before { content: '\74'; } /* 't' */
