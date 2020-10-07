@@ -10,4 +10,7 @@ $user= new user($db);
 require 'traitement.php';
 $todolist= new Todolist($db);
 
+require 'list.php';
+$newlist = new lists($db)
+
 ?>

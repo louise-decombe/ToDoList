@@ -141,3 +141,9 @@ footer{
   font-size: 1.5em;
   color: white;
 }
+
+/** TO DO LIST FORM **/
+
+#addform{
+  display: none;
+}
