@@ -10,7 +10,6 @@ if (isset($_GET['ajouter'])) {
 
 
     if ($_GET["nom_tache"]) {
-
         $id_utilisateur = $_SESSION['id_utilisateur'];
         $nom = $_GET['nom_tache'];
         $statut = "non";
@@ -20,6 +19,16 @@ if (isset($_GET['ajouter'])) {
         $assigned_to = null;
         $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to);
         echo  $result;
+
+if($result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to)
+){
+
+         $task_list_id = $result->lastInsertId();
+
+         echo '<a href="#" class="list-group-item" id="list-group-item-'.$task_list_id.'" data-id="'.$task_list_id.'">'.$_POST["task_name"].' <span class="badge" data-id="'.$task_list_id.'">X</span></a>';
+        }
+
+
     }
 }
 
@@ -28,10 +37,10 @@ if (isset($_GET['ajouter'])) {
 if (isset($_GET['maj'])) {
 
 // on sélectionn l'id
-  if($_POST["id"])
+  if($_GET["id"])
   {
 $date_finished = date("Y-m-d H:i:s");
-$id = $_POST['id'];
+$id = $_GET['id'];
 $statut= 'oui';
   }
 }
@@ -43,9 +52,9 @@ if (isset($_GET['supprimer'])) {
     $connect = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
 
     // si l'utilisateur clique sur la croix pour supprimer on récupère l'id de la tâche pour la supprimer
-    if ($_POST["id"]) {
+    if ($_GET["id"]) {
         $data = array(
-    ':id'  => $_POST['id']
+    ':id'  => $_GET['id']
    );
         $query = "DELETE FROM todo WHERE id = :id";
 

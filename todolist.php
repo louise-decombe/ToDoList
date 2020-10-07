@@ -41,7 +41,11 @@ include('class/config.php');
     </nav>
   </header>
 
-  <?php //if(isset($_SESSION['id_utilisateur'])) {
+  <?php
+
+$_SESSION['id_utilisateur']= 1;
+
+  //if(isset($_SESSION['id_utilisateur'])) {
 
   ?>
   <main>
