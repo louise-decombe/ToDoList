@@ -24,7 +24,7 @@ $(document).ready(function () {
   $(document).on('click', '.list-group-item', function () {
     var id = $(this).data('id');
     $.ajax({
-      url: "traitement/todolist_process?maj.php",
+      url: "traitement/todolist_process.php?maj",
       method: "GET",
       data: {
         id: id
@@ -38,7 +38,7 @@ $(document).ready(function () {
   $(document).on('click', '.badge', function () {
     var id = $(this).data('id');
     $.ajax({
-      url: "traitement/todolist_process?supprimer.php",
+      url: "traitement/todolist_process.php?supprimer",
       method: "GET",
       data: {
         id: id

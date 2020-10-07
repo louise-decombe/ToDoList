@@ -43,9 +43,6 @@ include('class/config.php');
 
   <?php //if(isset($_SESSION['id_utilisateur'])) {
 
-  $_SESSION['id_utilisateur'] = 1;
-
-  $id_utilisateur = $_SESSION['id_utilisateur'];
   $todolist->select($id_utilisateur);
 
   ?>
@@ -116,13 +113,14 @@ include('class/config.php');
             <br />
             <div class="list-group">
               <?php
-              foreach ($result as $row) {
-                $style = '';
-                if ($row["statut"] == 'oui') {
-                  $style = 'text-decoration: line-through';
-                }
-                echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row["id"] . '" data-id="' . $row["id"] . '">' . $row["nom"] . '<span class="badge" data-id="' . $row["id"] . '">X</span>' . '<span class="button"><button type="button" class="btn btn-dark">+</button></span>' . '';
-              }
+$result = $db->query('SELECT * FROM todo');
+
+            foreach ($result as $row) {
+             $style = '';
+              if ($row->statut == 'oui') {
+                $style = 'text-decoration: line-through';
+             } echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">' . $row->nom . '<span class="badge" data-id="' . $row->id . '">X</span>' . '<span class="button"><button type="button" class="btn btn-dark">+</button></span>' . '';
+            }
               ?>
             </div>
           </div>
