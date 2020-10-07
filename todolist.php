@@ -15,7 +15,7 @@ include('class/config.php');
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   <script src="js/script.js"></script>
   <link rel="stylesheet" href="css/font-awesome.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -42,8 +42,6 @@ include('class/config.php');
   </header>
 
   <?php //if(isset($_SESSION['id_utilisateur'])) {
-
-  $todolist->select($id_utilisateur);
 
   ?>
   <main>
@@ -78,7 +76,11 @@ include('class/config.php');
     <br />
     <br />
     <div class="container">
-      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button>
+      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong>
+
+        <form action="traitement/deconnexion_process.php" method="post">
+            <input id="" class="btn btn-info" name="deconnexion" value="DECONNEXION" type="submit"/>
+        </form>
       </h1>
       <br />
       <div class="panel panel-default">
@@ -96,8 +98,7 @@ include('class/config.php');
                 <i class="fa fa-refresh"></i>
               </div>
             </div>
-            <div class="col-md-3">
-            </div>
+
           </div>
           <div class="panel-body">
             <form method="get" id="todo_formulaire">
@@ -112,16 +113,33 @@ include('class/config.php');
             </form>
             <br />
             <div class="list-group">
+              <div class="todo"><?php
+                $result = $db->query('SELECT * FROM todo WHERE statut="non"');
+
+                            foreach ($result as $row) {
+
+                             $style = '';
+                              if ($row->statut == 'non') {
+
+                              echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>'.$row->description.'</section>';
+                            }
+
+                          }
+                    ?>
+                  </div>
+              <div class="done">
               <?php
-$result = $db->query('SELECT * FROM todo');
+$result = $db->query('SELECT * FROM todo WHERE statut="oui"');
 
             foreach ($result as $row) {
+
              $style = '';
               if ($row->statut == 'oui') {
-                $style = 'text-decoration: line-through';
-             } echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">' . $row->nom . '<span class="badge" data-id="' . $row->id . '">X</span>' . '<span class="button"><button type="button" class="btn btn-dark">+</button></span>' . '';
-            }
-              ?>
+
+              echo '<p style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">'.'terminé le :   '.$row->finished_at.'   <b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>';
+          }
+        }
+        ?></div>
             </div>
           </div>
           <?php //} else {

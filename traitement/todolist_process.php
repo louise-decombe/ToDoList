@@ -14,7 +14,7 @@ if (isset($_GET['ajouter'])) {
         $id_utilisateur = $_SESSION['id_utilisateur'];
         $nom = $_GET['nom_tache'];
         $statut = "non";
-        $create_at = date("Y-m-d H:i:s");
+        $create_at = date("Y-m-d H:i");
         $finished_at = null;
         $description = $_GET['description'];
         $assigned_to = null;

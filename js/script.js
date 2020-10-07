@@ -190,7 +190,7 @@ $(document).ready(function () {
 
 function test() {
     return (`
-    
+
     <form action="" method="post">
 
 <div class="form-group">
@@ -202,7 +202,7 @@ function test() {
   <input type="text" name="" id="" class="form-control">
 </div>
 </form>
-    
+
     `).trim();
 
 }
