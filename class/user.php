@@ -92,12 +92,7 @@ class user {
                 $_SESSION["login"]= $users['login'];
                 $_SESSION["id"]= $users['id'];
                 $_SESSION['connected']=1;
-                
-                
-
-                
-                
-                
+ 
                 return  json_encode(["msg" => "connected"]);;
  
                 
@@ -127,7 +122,7 @@ class user {
             return true;
             
         }else{
-            return "Mot de passe différents";
+            return json_encode(["erreur" => "Mot de passe différents"]);
         }
 
     }

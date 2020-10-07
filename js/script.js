@@ -1,33 +1,31 @@
 $(document).ready(function () {
 
     /**SHOW CONNECT FROM */
+
+    async function showConnect() {
+        const result = $('main').load("connexion.php #connect_section")
+
+        return result;
+    }
+
     $('#connect').click(function () {
-        $.get(
-            'connexion.php',
-            $('#connect_form'),
-            function (data) {
-
-                $('main').html(data);
-                console.log("ok")
-
-            }
-        )
-
+        showConnect();
 
     })
+
     /** SHOW REGISTER FORM */
+
+    async function showRegister() {
+        const result = $('main').load("register.php #register_section")
+
+        return result;
+    }
+
     $('#register').click(function () {
-        $.get(
-            'register.php',
-            $('#register_form'),
-            function (data) {
-
-                $('main').html(data);
-                console.log("ok")
-
-            }
-        )
+        showRegister();
     })
+
+
     /**PROCESS REGISTER FORM */
     $('#register_form').submit(function (event) {
 
@@ -64,10 +62,10 @@ $(document).ready(function () {
                             'connexion.php',
                             $('#connect_form'),
                             function (data) {
-                
-                                $('main').html(data);
+
+                                $('body').html(data);
                                 console.log("ok")
-                
+
                             }
                         )
 
@@ -90,7 +88,7 @@ $(document).ready(function () {
 
     })
 
-/** PROCESS CONNECT FORM */
+    /** PROCESS CONNECT FORM */
 
     $('#connect_form').submit(function (event) {
 
@@ -109,7 +107,6 @@ $(document).ready(function () {
                 data: {
                     login: login,
                     password: password,
-
 
                 },
 
@@ -145,7 +142,67 @@ $(document).ready(function () {
 
     })
 
+    /**PROCESS ADD LIST FORM */
+    $('#new_list').click(function(){
+        $('#addform').css("display", "block");
+    })
+
+    $('#add_list_form').submit(function (event) {
+        event.preventDefault();
+        let name = $('#list_name').val();
+        let user_name = $('#add_user').val();
+
+        $.ajax({
+            url: 'traitement/addlist_process.php',
+            type: "POST",
+            data: {
+                name: name,
+                user_name: user_name,
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.erreur) {
+                    console.log("error")
+                    $('#error').empty();
+                    $('#error').removeClass("alert alert-danger");
+                    $('#error').html(data.erreur);
+                    $('#error').addClass("alert alert-danger");
+                } else {
+                    window.location = "todolist.php";
+
+                    console.log(data.msg);
+                }
+
+
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    })
+
 
 
 
 })
+
+
+
+function test() {
+    return (`
+    
+    <form action="" method="post">
+
+<div class="form-group">
+  <label for="">${toto}</label>
+  <input type="text" name="" id="" class="form-control">
+</div>
+<div class="form-group">
+  <label for="">fff</label>
+  <input type="text" name="" id="" class="form-control">
+</div>
+</form>
+    
+    `).trim();
+
+}
