@@ -2,17 +2,34 @@
 
 require '../class/config.php';
 
-$name = htmlspecialchars($_POST['list_name']);
-$id_user= $_SESSION['id'];
-$user_name= htmlspecialchars($_POST['add_user']);
+$id_user = htmlspecialchars($_POST['iduser']);
+$name = htmlspecialchars($_POST['name']);
+
+$username = htmlspecialchars($_POST['username']);
+
 
 $result = $newlist->addlist($name, $id_user);
-echo $result;
-$new_result = json_decode($result, true) ;
 
-if($new_result['msg'] == "liste ok"){
-    $add_user = $newlist->adduser($user_name, $name);
-    echo $add_user;
+
+
+
+$new_result = json_decode($result, true);
+
+if (isset($new_result['msg']) && $new_result['msg'] == "liste ok") {
+
+    if($username != null){
+        $add_user = $newlist->adduser($username, $name);
+
+        $new_data = json_encode([
+            "result1" => $result,
+            "result2" => $add_user
+        ]);
+        echo $new_data;
+    }
+
 }
 
-?>
+
+if(!isset($new_data)){
+    echo $result;
+}

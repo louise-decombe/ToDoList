@@ -2,6 +2,8 @@
 
 include('class/config.php');
 
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,27 +51,32 @@ include('class/config.php');
   $todolist->select($id_utilisateur);
 
   ?>
+
   <main>
     <section>
       <button type="submit" id="new_list" class="btn btn-success">Créer une nouvelle liste</button>
       <div id="addform">
         <div id="error"></div>
-        <form action="" method="post" id="add_list_form">
-          <div class="form-group">
-            <label for="list_name">Nom de la liste</label>
-            <input type="text" id="list_name" name="list_name">
+        <div id="success"></div>
+        <form method="POST" id="add_list_form">
+  
+            <label for="name">Nom de la liste</label>
+            <input type="text" id="name" name="name">
 
-          </div>
-          <div class="form-group">
-            <label for="add_user">Ajouter un utilisateur</label>
-            <input type="text" id="add user" name="add_user">
-          </div>
+     
+         
+            <label for="username">Ajouter un utilisateur</label>
+            <input type="text" id="username" name="username">
+            <input type="hidden" id="iduser" name="iduser" value=<?= $_SESSION['id'] ?>>
+
           <button type="submit" id="submit_list" class="btn btn-success">Créer ma liste</button>
         </form>
       </div>
 
       <article>
-        <p>display list</p>
+        <div class="list_container">
+         
+        </div>
       </article>
     </section>
   </main>
@@ -135,6 +142,6 @@ include('class/config.php');
 <script src="js/script_todolist.js">
 
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
 
 </html>
