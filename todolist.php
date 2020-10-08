@@ -45,31 +45,37 @@ include('class/config.php');
 
   <?php //if(isset($_SESSION['id_utilisateur'])) {
 
-  $_SESSION['id_utilisateur'] = 1;
+  
 
-  $id_utilisateur = $_SESSION['id_utilisateur'];
+  $id_utilisateur = $_SESSION['id'];
   $todolist->select($id_utilisateur);
 
   ?>
 
   <main>
-    <section>
-      <button type="submit" id="new_list" class="btn btn-success">Créer une nouvelle liste</button>
+    <section id="first_sect_todo">
+      <div id="error" class="m-3"></div>
+      <div id="success" class="m-3"></div>
+      <button type="submit" id="new_list" class="btn btn-success ml-3">Créer une nouvelle liste</button>
+      <button type="submit" id="cancel" class="btn btn-danger ml-3">Annuler</button>
       <div id="addform">
-        <div id="error"></div>
-        <div id="success"></div>
+
         <form method="POST" id="add_list_form">
+          <div class="form-row">
+            <div class="col m-1">
 
-            <label for="name">Nom de la liste</label>
-            <input type="text" id="name" name="name">
+              <input type="text" id="name" name="name" class="form-control" placeholder="Nom de la liste">
+            </div>
+            <div class="col m-1">
 
+              <input type="text" id="username" name="username" class="form-control" placeholder="Ajouter un utilisateur à cette liste">
+            </div>
+          </div>
+          <input type="hidden" id="iduser" name="iduser" value=<?= $_SESSION['id'] ?>>
+          <div class="d-flex justify-content-end">
+            <button type="submit" id="submit_list" class="btn btn-success p-2 m-3">Créer ma liste</button>
+          </div>
 
-
-            <label for="username">Ajouter un utilisateur</label>
-            <input type="text" id="username" name="username">
-            <input type="hidden" id="iduser" name="iduser" value=<?= $_SESSION['id'] ?>>
-
-          <button type="submit" id="submit_list" class="btn btn-success">Créer ma liste</button>
         </form>
       </div>
 
@@ -81,83 +87,91 @@ include('class/config.php');
     </section>
   </main>
 
-    <div class="header">
-      <div id="date"></div>
-    </div>
-    <div class="container">
-      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button>
-      </h1>
-      <br />
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-md-9">
-              <h3 class="panel-title">
-                <?php
-                setlocale(LC_TIME, 'fra_fra');
-                echo strftime('%A %d %B %Y à %H:%M');
-                ?>
-              </h3>
-              <img src="" alt="">
-              <div class="clear">
-                <i class="fa fa-refresh"></i>
-              </div>
-            </div>
-            <div class="col-md-3">
+  <div class="header">
+    <div id="date"></div>
+  </div>
+  <div class="container">
+    <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button></h1>
+    <br />
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="panel-title">
+              <?php
+              setlocale(LC_TIME, 'fra_fra');
+              echo strftime('%A %d %B %Y à %H:%M');
+              ?>
+            </h3>
+            <img src="" alt="">
+            <div class="clear">
+              <i class="fa fa-refresh"></i>
             </div>
           </div>
-          <div class="panel-body">
-            <form method="post" id="todo_formulaire">
-              <span id="message"></span>
-              <div class="input-group">
-                <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
-                <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
-                <div class="input-group-btn">
-                  <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
-                </div>
+          <div class="col-md-3">
+          </div>
+        </div>
+        <div class="panel-body">
+          <form method="post" id="todo_formulaire">
+            <span id="message"></span>
+            <div class="input-group">
+              <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
+              <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
+              <select name="select_user" id="select_user" class="form-control">
+                <option id="select_user_opt" value="">Attribuer cette tâche à:</option>
+              </select>
+
+              <div class="input-group-btn">
+                <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
-            </form>
-            <br />
-            <div class="list-group">
-              <div class="todo"><?php
+            </div>
+          </form>
+          <br />
+          <div class="list-group">
+            <div class="todo">
 
-$id_list = $_GET['idlist'];
-                $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
+              <?php
+              $id_list = $_GET['idlist'];
+              $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
 
-                            foreach ($result as $row) {
+              foreach ($result as $row) {
 
-                             $style = '';
-                              if ($row->statut == 'non') {
+                foreach ($result as $row) {
 
-                              echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>'.$row->description.'</section>';
-                            }
+                  $style = '';
+                  if ($row->statut == 'non') {
 
-                          }
-                    ?>
-                  </div>
-              <div class="done">
+                    echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>' . $row->description . '</section>';
+                  }
+                }
+              }
+
+              ?>
+
+
+            </div>
+            <div class="done">
               <?php
               $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
 
-            foreach ($result as $row) {
+              foreach ($result as $row) {
 
-             $style = '';
-              if ($row->statut == 'oui') {
+                $style = '';
+                if ($row->statut == 'oui') {
 
-              echo '<p style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">'.'terminé le :   '.$row->finished_at.'   <b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>';
-          }
-        }
-        ?></div>
-
-          <?php //} else {
-          //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
-          // <a href='index.php'> connexion/inscription </a></center> ";
-          //}
-          ?>
+                  echo '<p style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">' . 'terminé le :   ' . $row->finished_at . '   <b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>';
+                }
+              }
+              ?></div>
+          </div>
+        </div>
+        <?php //} else {
+        //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
+        // <a href='index.php'> connexion/inscription </a></center> ";
+        //}
+        ?>
 </body>
-<script src="js/script_todolist.js">
-
-</script>
+<script src="js/script_todolist.js"></script>
 
 
 </html>

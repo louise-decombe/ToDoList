@@ -86,8 +86,59 @@ class  lists
             $data = $req->fetchall();
 
             return json_encode($data);
-
         } catch (PDOException $error) {
+            echo  $error->getMessage();
+        }
+    }
+
+    public function showlistusers($list_id)
+    {
+
+        try {
+            $req = $this->connect->prepare("SELECT nom FROM list WHERE id= ?");
+            $req->execute([$list_id]);
+            $list_name = $req->fetchall();
+        } catch (PDOException $error) {
+            echo  $error->getMessage();
+        }
+
+        try {
+            $req_login = $this->connect->prepare("SELECT login FROM utilisateurs INNER JOIN list on utilisateurs.id = list.id_utilisateur WHERE list.nom = ? ");
+
+            $req_login->execute([$list_name[0]['nom']]);
+            $users = $req_login->fetchall();
+
+            return json_encode($users);
+        } catch (PDOException $error) {
+            echo  $error->getMessage();
+        }
+    }
+
+
+
+    public function getListName($id_list)
+    {
+
+        try {
+            $req_name = $this->connect->prepare("SELECT nom FROM list WHERE id = ?");
+            $req_name->execute([$id_list]);
+            $list_name = $req_name->fetch();
+
+            return json_encode($list_name);
+        } catch (PDOException $error) {
+            echo  $error->getMessage();
+        }
+    }
+
+    public function deleteList($id_list){
+
+        try{
+            $req_delete = $this->connect->prepare("DELETE FROM `list` WHERE id = ?");
+            $req_delete->execute([$id_list]);
+
+            return json_encode("msg" => "Cette liste a bien été effacée");
+
+        }catch (PDOException $error) {
             echo  $error->getMessage();
         }
     }

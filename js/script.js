@@ -1,7 +1,19 @@
 $(document).ready(function () {
 
+
+    /** GET ID LIST FROM URL */
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+    var id_list = getUrlParameter('idlist');
+
+    /** FORMS TEMPLATES */
+
     function templateFormConnect() {
-        return (`
+        return (`     
         <h1 class="text-center">Se connecter</h1>
         <div id="error"></div>
         <form action="" method="post" id="connect_form">
@@ -17,18 +29,20 @@ $(document).ready(function () {
 
             <button type="submit" id="btn_connect" class="btn btn-success w-50">Valider</button>
 
+
+
         </form>
         <p class="text-center" id="not_registered">Pas de compte? <a href="#" id="register">S'incrire</a></p>
-
+        
         `)
     }
 
     function templateFormRegister() {
-        return (`
+        return (`            
         <h1 class="text-center">S'incrire</h1>
         <div id="error"></div>
         <form method="post" id="register_form">
-
+            
             <div class="form-group">
                 <label for="login">Votre Login</label>
                 <input type="text" id="login" name="login" class="form-control">
@@ -48,12 +62,12 @@ $(document).ready(function () {
 
     $('#section_index').append(templateFormConnect())
 
-$('#register').click(function(){
-    $('#section_index').empty();
-    $('#section_index').append(templateFormRegister());
-    $("#connect").click(function(){
-        window.location = "index.php";
-    })
+    $('#register').click(function () {
+        $('#section_index').empty();
+        $('#section_index').append(templateFormRegister());
+        $("#connect").click(function () {
+            window.location = "index.php";
+        })
 
         /**PROCESS REGISTER FORM */
         $('#register_form').submit(function (event) {
@@ -110,8 +124,7 @@ $('#register').click(function(){
         })
 
 
-})
-
+    })
 
 
 
@@ -153,8 +166,6 @@ $('#register').click(function(){
                         console.log(data.msg);
                     }
 
-
-
                 },
                 error: function (data) {
                     console.log(data)
@@ -169,12 +180,23 @@ $('#register').click(function(){
 
     })
 
-    /**PROCESS ADD LIST FORM */
+    /**CHANGE BUTTONS */
     $('#new_list').click(function () {
         $('#addform').css("display", "block");
+        $(this).css("display", "none");
+        $('#cancel').css("display", "block")
+        $('#error').empty();
+
+        $("#cancel").click(function () {
+            $('#addform').css("display", "none");
+            $(this).css("display", "none");
+            $('#new_list').css("display", "block");
+
+        })
+
     })
 
-
+    /**PROCESS ADD LIST FORM */
     $('#add_list_form').submit(function (event) {
 
         event.preventDefault();
@@ -203,12 +225,17 @@ $('#register').click(function(){
                     $('#error').removeClass("alert alert-danger")
                     $('#error').html(data.erreur)
                     $('#error').addClass("alert alert-danger")
+
                 } else {
                     $('#error').empty();
                     $('#error').removeClass("alert alert-danger")
 
                     $('#success').append("<p>Votre liste a bien été créee</p>")
                     $('#success').addClass("alert alert-success")
+                    $('#addform').css("display", "none");
+                    $('#cancel').css("display", "none");
+                    $('#new_list').css("display", "block");
+
                     console.log(data.result2);
                 }
 
@@ -221,37 +248,92 @@ $('#register').click(function(){
         });
 
 
-
-
-
-
     })
 
     /**DISPLAY LISTS */
 
     function templatelists(id, name) {
-        return (`<a href='todolist.php?idlist=${id}' >${name}</a>`).trim();
+        return (`
+        <div class="lists">
+        <a href='todolist.php?idlist=${id}' >${name}</a>
+        </div>
+        `).trim();
     }
     // $('.list_container').html(templatelists(1, "tests")[0]);
 
+    function displaymylists() {
+
+        $.ajax({
+
+            url: "traitement/displaylists.php",
+
+            dataType: "json",
+
+            success: function (data) {
+
+                $('.list_container').empty();
+                for (let i = 0; i < data.length; i++) {
+
+                    $('.list_container').append(templatelists(data[i].id, data[i].nom));
+
+                }
+
+            },
+            error: function (data) {
+                
+            }
+        })
+
+
+
+    }
+    setInterval(displaymylists, 500)
+
+    /** DISPLAY OPTION SELECT */
+
+    function optionTemplate(username) {
+        return (`<option value =${username}>${username}</option>`).trim();
+    }
+
+
+
     $.ajax({
-
-        url: "traitement/displaylists.php",
-
+        url: "traitement/select_user.php",
+        type: "post",
         dataType: "json",
-
+        data: {
+            id_list: id_list,
+        },
         success: function (data) {
-            console.log(data[0].id)
+            console.log(data)
             for (let i = 0; i < data.length; i++) {
-
-                $('.list_container').append(templatelists(data[i].id, data[i].nom));
-                console.log(data[i].id)
+                console.log(data[i].login)
+                $('#select_user').append(optionTemplate(data[i].login))
             }
         },
         error: function (data) {
             console.log(data)
         }
     })
+
+
+    /** SHOW LIST NAME */
+
+    $.ajax({
+        url: "traitement/displaylistinfo.php",
+        type: "post",
+        data:{
+            id_list: id_list,
+        },
+        success: function(data){
+            console.log(data);
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    })
+
+
 
 
 
