@@ -144,8 +144,13 @@ footer{
 
 /** TO DO LIST FORM **/
 
+#cancel{
+  display: none;
+  
+}
 #addform{
   display: none;
+  padding: 1em;
 }
 
 .list_container{

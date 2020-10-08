@@ -43,39 +43,50 @@ include('class/config.php');
     </nav>
   </header>
 
-  <?php //if(isset($_SESSION['id_utilisateur'])) {
+  <?php
 
   $_SESSION['id_utilisateur'] = 1;
 
-  $id_utilisateur = $_SESSION['id_utilisateur'];
-  $todolist->select($id_utilisateur);
+  //if(isset($_SESSION['id_utilisateur'])) {
 
   ?>
-
   <main>
-    <section>
-      <button type="submit" id="new_list" class="btn btn-success">Créer une nouvelle liste</button>
+    <section id="first_sect_todo">
+      <div id="error" class="m-3"></div>
+      <div id="success" class="m-3"></div>
+      <button type="submit" id="new_list" class="btn btn-success ml-3">Créer une nouvelle liste</button>
+      <button type="submit" id="cancel" class="btn btn-danger ml-3">Annuler</button>
       <div id="addform">
-        <div id="error"></div>
-        <div id="success"></div>
+
         <form method="POST" id="add_list_form">
-  
-            <label for="name">Nom de la liste</label>
-            <input type="text" id="name" name="name">
+          <div class="form-row">
+            <div class="col m-1">
 
-     
-         
-            <label for="username">Ajouter un utilisateur</label>
-            <input type="text" id="username" name="username">
-            <input type="hidden" id="iduser" name="iduser" value=<?= $_SESSION['id'] ?>>
+              <input type="text" id="name" name="name" class="form-control" placeholder="Nom de la liste">
+            </div>
+            <div class="col m-1">
 
-          <button type="submit" id="submit_list" class="btn btn-success">Créer ma liste</button>
+              <input type="text" id="username" name="username" class="form-control" placeholder="Ajouter un utilisateur à cette liste">
+            </div>
+          </div>
+          <input type="hidden" id="iduser" name="iduser" value=<?= $_SESSION['id'] ?>>
+          <div class="d-flex justify-content-end">
+            <button type="submit" id="submit_list" class="btn btn-success p-2 m-3">Créer ma liste</button>
+          </div>
+
+
+
+
+
+
+
+
         </form>
       </div>
 
       <article>
         <div class="list_container">
-         
+
         </div>
       </article>
     </section>
@@ -88,7 +99,13 @@ include('class/config.php');
     <br />
     <br />
     <div class="container">
-      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button>
+      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong>
+
+
+
+        <form action="traitement/deconnexion_process.php" method="post">
+          <input id="" class="btn btn-info" name="deconnexion" value="DECONNEXION" type="submit" />
+        </form>
       </h1>
       <br />
       <div class="panel panel-default">
@@ -106,8 +123,6 @@ include('class/config.php');
                 <i class="fa fa-refresh"></i>
               </div>
             </div>
-            <div class="col-md-3">
-            </div>
           </div>
           <div class="panel-body">
             <form method="get" id="todo_formulaire">
@@ -115,6 +130,7 @@ include('class/config.php');
               <div class="input-group">
                 <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
                 <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
+
                 <div class="input-group-btn">
                   <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
                 </div>
@@ -122,15 +138,32 @@ include('class/config.php');
             </form>
             <br />
             <div class="list-group">
-              <?php
-              foreach ($result as $row) {
-                $style = '';
-                if ($row["statut"] == 'oui') {
-                  $style = 'text-decoration: line-through';
+              <div class="todo"><?php
+                                $result = $db->query('SELECT * FROM todo WHERE statut="non"');
+
+                                foreach ($result as $row) {
+
+                                  $style = '';
+                                  if ($row->statut == 'non') {
+
+                                    echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>' . $row->description . '</section>';
+                                  }
+                                }
+                                ?>
+              </div>
+              <div class="done">
+                <?php
+                $result = $db->query('SELECT * FROM todo WHERE statut="oui"');
+
+                foreach ($result as $row) {
+
+                  $style = '';
+                  if ($row->statut == 'oui') {
+
+                    echo '<p style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">' . 'terminé le :   ' . $row->finished_at . '   <b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>';
+                  }
                 }
-                echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row["id"] . '" data-id="' . $row["id"] . '">' . $row["nom"] . '<span class="badge" data-id="' . $row["id"] . '">X</span>' . '<span class="button"><button type="button" class="btn btn-dark">+</button></span>' . '';
-              }
-              ?>
+                ?></div>
             </div>
           </div>
           <?php //} else {

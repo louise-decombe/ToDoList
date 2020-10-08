@@ -24,13 +24,13 @@ $(document).ready(function () {
   $(document).on('click', '.list-group-item', function () {
     var id = $(this).data('id');
     $.ajax({
-      url: "traitement/todolist_process?maj.php",
+      url: "traitement/todolist_process.php?maj",
       method: "GET",
       data: {
         id: id
       },
       success: function (data) {
-        $('#list-group-item-' + id).css('text-decoration', 'line-through');
+        $('#list-group-item-' + id).css('text-decoration', 'line-through').fadeOut('slow');
       }
     })
   });
@@ -38,7 +38,7 @@ $(document).ready(function () {
   $(document).on('click', '.badge', function () {
     var id = $(this).data('id');
     $.ajax({
-      url: "traitement/todolist_process?supprimer.php",
+      url: "traitement/todolist_process.php?supprimer",
       method: "GET",
       data: {
         id: id
@@ -49,4 +49,22 @@ $(document).ready(function () {
     })
   });
 
+});
+
+
+$(function() {
+$('#description').on('click', function(e) {
+e.preventDefault();
+if ($(this).hasClass('active')) {
+$(this).removeClass('active');
+$(this).next()
+.stop()
+.slideUp(300);
+} else {
+$(this).addClass('active');
+$(this).next()
+.stop()
+.slideDown(500);
+}
+});
 });

@@ -106,4 +106,8 @@ class  lists
             echo  $error->getMessage();
         }
     }
+
+    public function displayOneList($id_list){
+        
+    }
 }

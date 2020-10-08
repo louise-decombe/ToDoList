@@ -25,7 +25,16 @@ class DataBase {
         catch(PDOException $e){
             echo 'Échec lors de la connexion : ' . $e->getMessage();
         }
-    }    
+    }
+
+    // pour faire une requête : $db->query('SELECT * FROM table')
+    public function query($sql, $data = array())
+    {
+        $req =$this->db->prepare($sql);
+        $req->execute($data);
+        //le résultat est retourné sous forme d'objet
+        return $req->fetchAll(PDO::FETCH_OBJ);
+    }
 }
 
 

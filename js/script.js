@@ -155,8 +155,6 @@ $(document).ready(function () {
                         console.log(data.msg);
                     }
 
-
-
                 },
                 error: function (data) {
                     console.log(data)
@@ -171,12 +169,23 @@ $(document).ready(function () {
 
     })
 
-    /**PROCESS ADD LIST FORM */
+    /**CHANGE BUTTONS */
     $('#new_list').click(function () {
         $('#addform').css("display", "block");
+        $(this).css("display", "none");
+        $('#cancel').css("display", "block")
+        $('#error').empty();
+
+        $("#cancel").click(function () {
+            $('#addform').css("display", "none");
+            $(this).css("display", "none");
+            $('#new_list').css("display", "block");
+
+        })
+
     })
 
-
+    /**PROCESS ADD LIST FORM */
     $('#add_list_form').submit(function (event) {
 
         event.preventDefault();
@@ -205,12 +214,17 @@ $(document).ready(function () {
                     $('#error').removeClass("alert alert-danger")
                     $('#error').html(data.erreur)
                     $('#error').addClass("alert alert-danger")
+
                 } else {
                     $('#error').empty();
                     $('#error').removeClass("alert alert-danger")
 
                     $('#success').append("<p>Votre liste a bien été créee</p>")
                     $('#success').addClass("alert alert-success")
+                    $('#addform').css("display", "none");
+                    $('#cancel').css("display", "none");
+                    $('#new_list').css("display", "block");
+
                     console.log(data.result2);
                 }
 
@@ -240,24 +254,50 @@ $(document).ready(function () {
     }
     // $('.list_container').html(templatelists(1, "tests")[0]);
 
-    $.ajax({
+    function displaymylists() {
 
-        url: "traitement/displaylists.php",
+        $.ajax({
 
-        dataType: "json",
+            url: "traitement/displaylists.php",
 
-        success: function (data) {
-            console.log(data[0].id)
-            for (let i = 0; i < data.length; i++) {
+            dataType: "json",
 
-                $('.list_container').append(templatelists(data[i].id, data[i].nom));
-                console.log(data[i].id)
+            success: function (data) {
+
+                $('.list_container').empty();
+                for (let i = 0; i < data.length; i++) {
+
+                    $('.list_container').append(templatelists(data[i].id, data[i].nom));
+
+                }
+
+            },
+            error: function (data) {
+                console.log(data)
             }
-        },
-        error: function (data) {
-            console.log(data)
-        }
-    })
+        })
+
+
+
+    }
+    setInterval(displaymylists, 500)
+
+    /** DISPLAY ONE LIST */
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+
+
+
+
+
+
+
 
 
 
