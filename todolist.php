@@ -81,12 +81,9 @@ include('class/config.php');
     </section>
   </main>
 
-  <div class="container">
     <div class="header">
       <div id="date"></div>
     </div>
-    <br />
-    <br />
     <div class="container">
       <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button>
       </h1>
@@ -110,7 +107,7 @@ include('class/config.php');
             </div>
           </div>
           <div class="panel-body">
-            <form method="get" id="todo_formulaire">
+            <form method="post" id="todo_formulaire">
               <span id="message"></span>
               <div class="input-group">
                 <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
@@ -123,7 +120,9 @@ include('class/config.php');
             <br />
             <div class="list-group">
               <div class="todo"><?php
-                $result = $db->query('SELECT * FROM todo WHERE statut="non"');
+
+$id_list = $_GET['idlist'];
+                $result = $db->query('SELECT * FROM todo WHERE statut="non" AND id_list= $id_list');
 
                             foreach ($result as $row) {
 
@@ -149,7 +148,7 @@ $result = $db->query('SELECT * FROM todo WHERE statut="oui"');
           }
         }
         ?></div>
-  
+
           <?php //} else {
           //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
           // <a href='index.php'> connexion/inscription </a></center> ";

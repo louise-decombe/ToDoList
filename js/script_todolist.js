@@ -10,12 +10,13 @@ $(document).ready(function () {
       $('#submit').attr('disabled', 'disabled');
       $.ajax({
         url: "traitement/todolist_process.php?ajouter",
-        method: "GET",
+        method: "POST",
         data: $(this).serialize(),
         success: function (data) {
           $('#submit').attr('disabled', false);
           $('#todo_formulaire')[0].reset();
           $('.list-group').prepend(data);
+
         }
       })
     }
@@ -25,7 +26,7 @@ $(document).ready(function () {
     var id = $(this).data('id');
     $.ajax({
       url: "traitement/todolist_process.php?maj",
-      method: "GET",
+      method: "POST",
       data: {
         id: id
       },
@@ -33,6 +34,8 @@ $(document).ready(function () {
         $('#list-group-item-' + id).css('text-decoration', 'line-through').fadeOut('slow');
       }
     })
+    setInterval(function, 500);
+
   });
 
   $(document).on('click', '.badge', function () {

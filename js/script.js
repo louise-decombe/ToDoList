@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     function templateFormConnect() {
-        return (`     
+        return (`
         <h1 class="text-center">Se connecter</h1>
         <div id="error"></div>
         <form action="" method="post" id="connect_form">
@@ -17,20 +17,18 @@ $(document).ready(function () {
 
             <button type="submit" id="btn_connect" class="btn btn-success w-50">Valider</button>
 
-
-
         </form>
         <p class="text-center" id="not_registered">Pas de compte? <a href="#" id="register">S'incrire</a></p>
-        
+
         `)
     }
 
     function templateFormRegister() {
-        return (`            
+        return (`
         <h1 class="text-center">S'incrire</h1>
         <div id="error"></div>
         <form method="post" id="register_form">
-            
+
             <div class="form-group">
                 <label for="login">Votre Login</label>
                 <input type="text" id="login" name="login" class="form-control">
@@ -59,28 +57,28 @@ $('#register').click(function(){
 
         /**PROCESS REGISTER FORM */
         $('#register_form').submit(function (event) {
-        
+
             event.preventDefault();
             let login = $("#login").val();
             let password = $("#password").val();
             let pwd_confirm = $("#pwd_confirm").val();
             console.log('ok');
-    
+
             if (login != "" && password != "" && pwd_confirm != "") {
                 console.log("ok2")
                 $.ajax({
-    
+
                     url: "traitement/register_process.php",
                     type: "POST",
                     data: {
                         login: login,
                         password: password,
                         pwd_confirm: pwd_confirm,
-    
+
                     },
-    
+
                     success: function (data) {
-    
+
                         data = JSON.parse(data)
                         console.log(data)
                         if (data.erreur) {
@@ -90,13 +88,13 @@ $('#register').click(function(){
                             $('#error').addClass("alert alert-danger")
                         } else if (data.msg == "registered") {
                             window.location = "index.php";
-                         
+
 
                             console.log(data.msg);
                         }
-    
-    
-    
+
+
+
                     },
                     error: function (data) {
                         console.log(data)
@@ -105,10 +103,10 @@ $('#register').click(function(){
             } else {
                 alert('Veuillez remplir tous les champs !');
             }
-    
-    
-    
-    
+
+
+
+
         })
 
 
@@ -258,7 +256,5 @@ $('#register').click(function(){
 
 
 
+
 })
-
-
-
