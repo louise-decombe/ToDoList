@@ -86,7 +86,22 @@ class  lists
             $data = $req->fetchall();
 
             return json_encode($data);
+        } catch (PDOException $error) {
+            echo  $error->getMessage();
+        }
+    }
 
+    public function showlistusers($list_name)
+    {
+
+
+        try {
+            $req_login = $this->connect->prepare("SELECT login FROM utilisateurs INNER JOIN list on utilisateurs.id = list.id_utilisateur WHERE list.nom = ? ");
+
+            $req_login->execute([$list_name]);
+            $users = $req_login->fetchall();
+
+            return json_encode($users);
         } catch (PDOException $error) {
             echo  $error->getMessage();
         }
