@@ -129,22 +129,21 @@ $id_list = $_GET['idlist'];
                              $style = '';
                               if ($row->statut == 'non') {
 
-                              echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>'.$row->description.'</section>';
-                            }
+        echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
 
+                            }
                           }
                     ?>
                   </div>
               <div class="done">
               <?php
-              $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
+              $result = $db->query("SELECT * FROM todo WHERE statut='oui' AND id_list='$id_list'");
 
             foreach ($result as $row) {
-
              $style = '';
               if ($row->statut == 'oui') {
 
-              echo '<p style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">'.'terminé le :   '.$row->finished_at.'   <b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>';
+                echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
           }
         }
         ?></div>
@@ -154,6 +153,7 @@ $id_list = $_GET['idlist'];
           // <a href='index.php'> connexion/inscription </a></center> ";
           //}
           ?>
+        </div>
 </body>
 <script src="js/script_todolist.js">
 

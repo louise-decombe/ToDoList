@@ -1,3 +1,14 @@
+
+$(document).ready(function() {
+       // auto refresh page after 1 second
+       setInterval('refreshPage()', 3000);
+   });
+
+   function refreshPage() {
+       location.reload();
+   }
+
+
 $(document).ready(function () {
 
   $(document).on('submit', '#todo_formulaire', function (event) {
@@ -25,28 +36,21 @@ console.log(data);
   });
 
 
-  $(document).on('click', '.list-group-item', function () {
-    var id = $(this).data('id');
-    function fetchdata(){
-    $.ajax({
-      url: "traitement/todolist_process.php?maj",
-      method: "POST",
-      data: {
-        id: id
-      },
-      success: function (data) {
-        $('#list-group-item-' + id).css('text-decoration', 'line-through').fadeOut('slow');
-      }
-    })
-  }
+
+  $(document).on('click', '.list-group-item', function(){
+   var id = $(this).data('id');
+   $.ajax({
+     url: "traitement/todolist_process.php?maj",
+    method:"POST",
+    data:{id:id},
+    success:function(data)
+    {
+     $('#list-group-item-'+id).css('text-decoration', 'line-through').fadeOut('slow');
+     $('.list-group').prepend(data);
+
+    }
+   })
   });
-
-
-
-
-
-
-
 
 
   $(document).on('click', '.badge', function () {
