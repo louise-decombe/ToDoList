@@ -8,6 +8,7 @@ $(document).ready(function () {
       return false;
     } else {
       $('#submit').attr('disabled', 'disabled');
+
       $.ajax({
         url: "traitement/todolist_process.php?ajouter",
         method: "POST",
@@ -16,14 +17,17 @@ $(document).ready(function () {
           $('#submit').attr('disabled', false);
           $('#todo_formulaire')[0].reset();
           $('.list-group').prepend(data);
-
+console.log(data);
         }
       })
+
     }
   });
 
+
   $(document).on('click', '.list-group-item', function () {
     var id = $(this).data('id');
+    function fetchdata(){
     $.ajax({
       url: "traitement/todolist_process.php?maj",
       method: "POST",
@@ -34,9 +38,16 @@ $(document).ready(function () {
         $('#list-group-item-' + id).css('text-decoration', 'line-through').fadeOut('slow');
       }
     })
-    setInterval(function, 500);
-
+  }
   });
+
+
+
+
+
+
+
+
 
   $(document).on('click', '.badge', function () {
     var id = $(this).data('id');

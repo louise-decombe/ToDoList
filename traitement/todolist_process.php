@@ -6,6 +6,8 @@ require "../class/config.php";
 
 // si on souhaite ajouter une tâche à la todolist
 if (isset($_GET['ajouter'])) {
+
+
     if ($_POST["nom_tache"]) {
         $id_utilisateur = $_SESSION['id_utilisateur'];
         $nom = $_POST['nom_tache'];
@@ -15,12 +17,13 @@ if (isset($_GET['ajouter'])) {
         $description = $_POST['description'];
         $assigned_to = null;
         $id_list ='1';
-        $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to,$id_list);
+        $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $id_list);
+        $last_todo = $todolist->select();
 
+        echo '<a href="#" style="' .'" class="list-group-item" id="list-group-item-' .$last_todo[0]["id"] . '" data-id="' . $last_todo[0]["id"] . '"><b>' . $last_todo[0]["nom"] . '</b><span class="badge" data-id="' . $last_todo[0]["id"] . '">X</span>' . '<section>'.'</section>';
 
-        }
     }
-
+}
 
 
 
@@ -28,10 +31,14 @@ if (isset($_GET['ajouter'])) {
 if (isset($_GET['maj'])) {
 
 // on sélectionn l'id
+$_POST['id']=9;
     if ($_POST["id"]) {
-        $date_finished = date("Y-m-d H:i:s");
         $id = $_POST['id'];
+        $finished_at= date("Y-m-d H:i:s");
         $statut= 'oui';
+
+        $maj = $todolist->maj($id,$statut,$finished_at);
+
     }
 }
 
