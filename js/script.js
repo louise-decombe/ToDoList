@@ -1,5 +1,17 @@
 $(document).ready(function () {
 
+
+    /** GET ID LIST FROM URL */
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+    var id_list = getUrlParameter('idlist');
+
+    /** FORMS TEMPLATES */
+
     function templateFormConnect() {
         return (`     
         <h1 class="text-center">Se connecter</h1>
@@ -113,7 +125,6 @@ $(document).ready(function () {
 
 
     })
-
 
 
 
@@ -237,10 +248,6 @@ $(document).ready(function () {
         });
 
 
-
-
-
-
     })
 
     /**DISPLAY LISTS */
@@ -273,7 +280,7 @@ $(document).ready(function () {
 
             },
             error: function (data) {
-                console.log(data)
+                
             }
         })
 
@@ -282,19 +289,49 @@ $(document).ready(function () {
     }
     setInterval(displaymylists, 500)
 
-    /** DISPLAY ONE LIST */
+    /** DISPLAY OPTION SELECT */
 
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    };
+    function optionTemplate(username) {
+        return (`<option value =${username}>${username}</option>`).trim();
+    }
 
 
 
+    $.ajax({
+        url: "traitement/select_user.php",
+        type: "post",
+        dataType: "json",
+        data: {
+            id_list: id_list,
+        },
+        success: function (data) {
+            console.log(data)
+            for (let i = 0; i < data.length; i++) {
+                console.log(data[i].login)
+                $('#select_user').append(optionTemplate(data[i].login))
+            }
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    })
 
 
+    /** SHOW LIST NAME */
+
+    $.ajax({
+        url: "traitement/displaylistinfo.php",
+        type: "post",
+        data:{
+            id_list: id_list,
+        },
+        success: function(data){
+            console.log(data);
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    })
 
 
 

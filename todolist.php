@@ -43,13 +43,15 @@ include('class/config.php');
     </nav>
   </header>
 
-  <?php
+  <?php //if(isset($_SESSION['id_utilisateur'])) {
 
-  $_SESSION['id_utilisateur'] = 1;
+  
 
-  //if(isset($_SESSION['id_utilisateur'])) {
+  $id_utilisateur = $_SESSION['id'];
+  $todolist->select($id_utilisateur);
 
   ?>
+
   <main>
     <section id="first_sect_todo">
       <div id="error" class="m-3"></div>
@@ -74,13 +76,6 @@ include('class/config.php');
             <button type="submit" id="submit_list" class="btn btn-success p-2 m-3">Créer ma liste</button>
           </div>
 
-
-
-
-
-
-
-
         </form>
       </div>
 
@@ -92,89 +87,91 @@ include('class/config.php');
     </section>
   </main>
 
+  <div class="header">
+    <div id="date"></div>
+  </div>
   <div class="container">
-    <div class="header">
-      <div id="date"></div>
-    </div>
+    <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button></h1>
     <br />
-    <br />
-    <div class="container">
-      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong>
-
-
-
-        <form action="traitement/deconnexion_process.php" method="post">
-          <input id="" class="btn btn-info" name="deconnexion" value="DECONNEXION" type="submit" />
-        </form>
-      </h1>
-      <br />
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-md-9">
-              <h3 class="panel-title">
-                <?php
-                setlocale(LC_TIME, 'fra_fra');
-                echo strftime('%A %d %B %Y à %H:%M');
-                ?>
-              </h3>
-              <img src="" alt="">
-              <div class="clear">
-                <i class="fa fa-refresh"></i>
-              </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="panel-title">
+              <?php
+              setlocale(LC_TIME, 'fra_fra');
+              echo strftime('%A %d %B %Y à %H:%M');
+              ?>
+            </h3>
+            <img src="" alt="">
+            <div class="clear">
+              <i class="fa fa-refresh"></i>
             </div>
           </div>
-          <div class="panel-body">
-            <form method="get" id="todo_formulaire">
-              <span id="message"></span>
-              <div class="input-group">
-                <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
-                <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
+          <div class="col-md-3">
+          </div>
+        </div>
+        <div class="panel-body">
+          <form method="post" id="todo_formulaire">
+            <span id="message"></span>
+            <div class="input-group">
+              <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
+              <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
+              <select name="select_user" id="select_user" class="form-control">
+                <option id="select_user_opt" value="">Attribuer cette tâche à:</option>
+              </select>
 
-                <div class="input-group-btn">
-                  <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
-                </div>
+              <div class="input-group-btn">
+                <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
-            </form>
-            <br />
-            <div class="list-group">
-              <div class="todo"><?php
-                                $result = $db->query('SELECT * FROM todo WHERE statut="non"');
+            </div>
+          </form>
+          <br />
+          <div class="list-group">
+            <div class="todo">
 
-                                foreach ($result as $row) {
+              <?php
+              $id_list = $_GET['idlist'];
+              $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
 
-                                  $style = '';
-                                  if ($row->statut == 'non') {
-
-                                    echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>' . $row->description . '</section>';
-                                  }
-                                }
-                                ?>
-              </div>
-              <div class="done">
-                <?php
-                $result = $db->query('SELECT * FROM todo WHERE statut="oui"');
+              foreach ($result as $row) {
 
                 foreach ($result as $row) {
 
                   $style = '';
-                  if ($row->statut == 'oui') {
+                  if ($row->statut == 'non') {
 
-                    echo '<p style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">' . 'terminé le :   ' . $row->finished_at . '   <b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>';
+                    echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>' . $row->description . '</section>';
                   }
                 }
-                ?></div>
-            </div>
-          </div>
-          <?php //} else {
-          //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
-          // <a href='index.php'> connexion/inscription </a></center> ";
-          //}
-          ?>
-</body>
-<script src="js/script_todolist.js">
+              }
 
-</script>
+              ?>
+
+
+            </div>
+            <div class="done">
+              <?php
+              $result = $db->query("SELECT * FROM todo WHERE statut='oui' AND id_list='$id_list'");
+
+              foreach ($result as $row) {
+
+                $style = '';
+                if ($row->statut == 'oui') {
+
+                  echo '<p style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">' . 'terminé le :   ' . $row->finished_at . '   <b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>';
+                }
+              }
+              ?></div>
+          </div>
+        </div>
+        <?php //} else {
+        //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
+        // <a href='index.php'> connexion/inscription </a></center> ";
+        //}
+        ?>
+</body>
+<script src="js/script_todolist.js"></script>
 
 
 </html>
