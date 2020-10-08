@@ -4,6 +4,7 @@
   padding: 0;
 }
 
+
 /* todolist.php */
 
 button {
@@ -19,7 +20,7 @@ button:hover{
 
 body {
 
-  font-size: 15px;
+  font-size: 20px;
 }
 
 h3 {
@@ -29,14 +30,6 @@ h3 {
 .button {
   margin: 2%;
   font-size: 30px;
-}
-
-.todo{
-  background-color: green !important;
-}
-
-.done{
-color:black !important;
 }
 
 /*---------------------------------------------------------------------*/

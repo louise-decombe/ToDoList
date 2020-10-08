@@ -36,6 +36,10 @@ VALUES(:id_utilisateur,:nom,:statut,:create_at,:finished_at,:description,:assign
   }
 
 
+
+
+
+
   public function supprimer($id)
   {
   }

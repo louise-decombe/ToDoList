@@ -17,10 +17,9 @@ class  lists
 
         try {
             $req_list = $this->connect->prepare("SELECT * FROM `list` WHERE nom = ? ");
-            var_dump($req_list);
+
             $req_list->execute([$name]);
             $data_name = $req_list->fetchall();
-            var_dump($data_name);
         } catch (PDOException $error) {
             echo  $error->getMessage();
         }
@@ -34,8 +33,8 @@ class  lists
                 echo  $error->getMessage();
             }
         } else {
-            $error = "Cette liste existe déja";
-            return json_encode(["erreur" => $error]);
+
+            return json_encode(["erreur" => "Cette liste existe déja"]);
         }
     }
 
@@ -46,24 +45,23 @@ class  lists
             $req = $this->connect->prepare("SELECT id FROM utilisateurs WHERE login = ?");
             $req->execute([$user_name]);
             $data_id = $req->fetch();
-            var_dump($data_id);
         } catch (PDOException $error) {
             echo  $error->getMessage();
         }
 
         if (count($data_id) == 0) {
-            $error = "Cette utilisateur n'existe pas";
+            $error = "Cet utilisateur n'existe pas";
             return json_encode(["erreur" => $error]);
         } else {
             try {
-                $req_check_list = $this->connect->prepare("SELECT * FROM list WHERE id = ? AND  nom = ??");
+                $req_check_list = $this->connect->prepare("SELECT * FROM list WHERE id = ? AND  nom = ?");
                 $req_check_list->execute([$data_id['id'], $list_name]);
-                $checkedlist = $req_check_list->fetch();
+                $checkedlist = $req_check_list->fetchall();
             } catch (PDOException $error) {
                 echo  $error->getMessage();
             }
 
-            if (count($checkedlist) != 0) {
+            if (isset($checkedlist) && count($checkedlist) != 0) {
                 $error = "L'utilisateur a déja été rajouté à la liste";
                 return json_encode(["erreur" => $error]);
             } else {
@@ -75,6 +73,22 @@ class  lists
                     echo  $error->getMessage();
                 }
             }
+        }
+    }
+
+    public function displayLists($id_user)
+    {
+
+        try {
+
+            $req = $this->connect->prepare("SELECT * FROM  list WHERE id_utilisateur = ?");
+            $req->execute([$id_user]);
+            $data = $req->fetchall();
+
+            return json_encode($data);
+
+        } catch (PDOException $error) {
+            echo  $error->getMessage();
         }
     }
 }

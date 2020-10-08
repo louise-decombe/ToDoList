@@ -2,6 +2,8 @@
 
 include('class/config.php');
 
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,7 +17,7 @@ include('class/config.php');
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   <script src="js/script.js"></script>
   <link rel="stylesheet" href="css/font-awesome.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -41,34 +43,40 @@ include('class/config.php');
     </nav>
   </header>
 
-  <?php
+  <?php //if(isset($_SESSION['id_utilisateur'])) {
 
-$_SESSION['id_utilisateur']= 1;
+  $_SESSION['id_utilisateur'] = 1;
 
-  //if(isset($_SESSION['id_utilisateur'])) {
+  $id_utilisateur = $_SESSION['id_utilisateur'];
+  $todolist->select($id_utilisateur);
 
   ?>
+
   <main>
     <section>
       <button type="submit" id="new_list" class="btn btn-success">Créer une nouvelle liste</button>
       <div id="addform">
         <div id="error"></div>
-        <form action="" method="post" id="add_list_form">
-          <div class="form-group">
-            <label for="list_name">Nom de la liste</label>
-            <input type="text" id="list_name" name="list_name">
+        <div id="success"></div>
+        <form method="POST" id="add_list_form">
 
-          </div>
-          <div class="form-group">
-            <label for="add_user">Ajouter un utilisateur</label>
-            <input type="text" id="add user" name="add_user">
-          </div>
+            <label for="name">Nom de la liste</label>
+            <input type="text" id="name" name="name">
+
+
+
+            <label for="username">Ajouter un utilisateur</label>
+            <input type="text" id="username" name="username">
+            <input type="hidden" id="iduser" name="iduser" value=<?= $_SESSION['id'] ?>>
+
           <button type="submit" id="submit_list" class="btn btn-success">Créer ma liste</button>
         </form>
       </div>
 
       <article>
-        <p>display list</p>
+        <div class="list_container">
+
+        </div>
       </article>
     </section>
   </main>
@@ -80,11 +88,7 @@ $_SESSION['id_utilisateur']= 1;
     <br />
     <br />
     <div class="container">
-      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong>
-
-        <form action="traitement/deconnexion_process.php" method="post">
-            <input id="" class="btn btn-info" name="deconnexion" value="DECONNEXION" type="submit"/>
-        </form>
+      <h1 align="center">Votre liste <strong><?php echo $_SESSION['login']; ?></strong> <button type="button" class="btn btn-info">Déconnexion</button>
       </h1>
       <br />
       <div class="panel panel-default">
@@ -102,7 +106,8 @@ $_SESSION['id_utilisateur']= 1;
                 <i class="fa fa-refresh"></i>
               </div>
             </div>
-
+            <div class="col-md-3">
+            </div>
           </div>
           <div class="panel-body">
             <form method="get" id="todo_formulaire">
@@ -144,8 +149,7 @@ $result = $db->query('SELECT * FROM todo WHERE statut="oui"');
           }
         }
         ?></div>
-            </div>
-          </div>
+  
           <?php //} else {
           //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
           // <a href='index.php'> connexion/inscription </a></center> ";
@@ -155,6 +159,6 @@ $result = $db->query('SELECT * FROM todo WHERE statut="oui"');
 <script src="js/script_todolist.js">
 
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
 
 </html>

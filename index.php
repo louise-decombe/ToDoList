@@ -30,28 +30,7 @@ session_start();
 
     <main class="main_form">
         
-        <section id="connect_section">   
-            <h1 class="text-center">Se connecter</h1>
-            <div id="error"></div>
-            <form action="" method="post" id="connect_form">
-                <div class="form-group">
-                    <label for="login">Votre Login</label>
-                    <input type="text" id="login" name="login" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="password">Votre mot de passe</label>
-                    <input type="password" id="password" name="password" class="form-control">
-                </div>
-
-
-                <button type="submit" id="btn_connect" class="btn btn-success w-50">Valider</button>
-
-
-
-            </form>
-            <p class="text-center">Pas de compte? <a href="#" id="register">S'incrire</a></p>
-
-        </section>
+    <section id="section_index"></section>
 
     </main>
 
