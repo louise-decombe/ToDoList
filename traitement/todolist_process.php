@@ -20,8 +20,8 @@ if (isset($_GET['ajouter'])) {
 =======
 >>>>>>> remotes/origin/Louise
          $assigned_to = $_POST['select_user'];
-        $id_list = $_POST['idlist'];
-        $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $id_list);
+        $idlist = $_POST['idlist'];
+        $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $idlist);
         $last_todo = $todolist->select();
 
         echo '<a href="#" style="' .'" class="list-group-item" id="list-group-item-' .$last_todo[0]["id"] . '" data-id="' . $last_todo[0]["id"] . '"><b>' . $last_todo[0]["nom"] . '</b><span class="badge" data-id="' . $last_todo[0]["id"] . '">X</span>' . '<section>'.'</section>';
@@ -84,10 +84,16 @@ if (isset($_GET['supprimer'])) {
 //si on souhaite supprimer la tâche
 if (isset($_GET['supprimer'])) {
   //supprimer une tâche de la todolist
+<<<<<<< HEAD
 >>>>>>> remotes/origin/Louise
 
+=======
+>>>>>>> remotes/origin/Louise
     // si l'utilisateur clique sur la croix pour supprimer on récupère l'id de la tâche pour la supprimer
     if ($_GET["id"]) {
+
+      $connect = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
+
         $data = array(
             ':id'  => $_GET['id']
         );

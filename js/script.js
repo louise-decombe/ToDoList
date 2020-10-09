@@ -401,25 +401,25 @@ $(document).ready(function () {
 
     /** DELETE LIST */
 
-    $('#delete_list').click(function(){
+    $('#delete_list').click(function () {
 
         $.ajax({
             url: "traitement/delete_list.php",
             type: "post",
-            data:{
-                idlist : id_list,
+            data: {
+                idlist: id_list,
             },
-            success: function(data){
-                if(data.msg != ""){
+            success: function (data) {
+                if (data.msg != "") {
                     console.log("ok");
                     window.location = "todolist.php";
                 }
-                
+
 
             },
             error: function (data) {
                 console.log(data)
-                
+
             }
         })
     })
