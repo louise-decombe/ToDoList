@@ -466,9 +466,11 @@ $(document).ready(function () {
     })
 
 
+    /**GO BACK TO LISTS */
 
 
-
-
+    $('#goback').click(function(){
+        window.location = "todolist.php";
+    })
 
 })
