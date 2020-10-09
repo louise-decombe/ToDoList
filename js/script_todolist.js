@@ -20,7 +20,7 @@ $(document).ready(function () {
       var results = regex.exec(location.search);
       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
-    id_list = getUrlParameter('idlist');
+    idlist = getUrlParameter('idlist');
 
 
     if ($('#nom_tache').val() == '') {
@@ -41,7 +41,7 @@ $(document).ready(function () {
           nom_tache: task_name,
           description: description,
           select_user: select_user,
-          idlist: id_list,
+          idlist: idlist,
         },
 
         success: function (data) {
@@ -59,6 +59,7 @@ $(document).ready(function () {
     }
   });
 
+
   $(document).on('click', '.list-group-item', function(){
    var id = $(this).data('id');
    $.ajax({
@@ -68,8 +69,6 @@ $(document).ready(function () {
     success:function(data)
     {
      $('#list-group-item-'+id).css('text-decoration', 'line-through').fadeOut('slow');
-     $('.list-group').prepend(data);
-
     }
    })
   });
@@ -83,11 +82,13 @@ $(document).ready(function () {
       data: {
         id: id
       },
-      success: function (data) {
+      success: function(data) {
         $('#list-group-item-' + id).fadeOut('slow');
       }
     })
   });
+
+
 
 });
 

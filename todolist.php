@@ -127,39 +127,43 @@ include('class/config.php');
             </div>
           </form>
           <br />
+          <h2>A faire</h2>
+
           <div class="list-group">
             <div class="todo">
-              <?php if(isset($_GET['idlist'])):?>
+              <?php if (isset($_GET['idlist'])):?>
               <?php
               $idlist = $_GET['idlist'];
               $result = $db->query("SELECT * FROM todo WHERE statut='non' AND idlist='$idlist'");
 
-              foreach ($result as $row) {
 
-                foreach ($result as $row) {
 
-                  $style = '';
-                  if ($row->statut == 'non') {
+                            foreach ($result as $row) {
 
-                    echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>' . $row->description . '</section>';
-                  }
-                }
-              }
+                              $style = '';
+                              if ($row->statut == 'non') {
+
+                                echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
+
+                              }
+                            }
 
               ?>
                   </div>
+                  <h2>Terminé</h2>
               <div class="done">
 
               <?php
               $result = $db->query("SELECT * FROM todo WHERE statut='oui' AND idlist='$idlist'");
 
             foreach ($result as $row) {
-             $style = '';
-              if ($row->statut == 'oui') {
+                $style = '';
+                if ($row->statut == 'oui') { ?>
 
-                echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
-          }
-        }
+                  <?php
+                  echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
+                }
+            }
         ?></div>
         <?php endif ?>
 
