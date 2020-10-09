@@ -8,7 +8,12 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item active">
+        <li class="nav-item">
+                <?php if (isset($_SESSION['login'])) : ?>
+                    <p class="nav-link">Bonjour <?= $_SESSION['login'] ?></p>
+                <?php endif ?>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">

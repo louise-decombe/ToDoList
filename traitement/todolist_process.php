@@ -15,10 +15,6 @@ if (isset($_GET['ajouter'])) {
         $create_at = date("Y-m-d H:i");
         $finished_at = null;
         $description = $_POST['description'];
-<<<<<<< HEAD
-
-=======
->>>>>>> remotes/origin/Louise
          $assigned_to = $_POST['select_user'];
         $idlist = $_POST['idlist'];
         $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $idlist);
@@ -34,23 +30,6 @@ if (isset($_GET['ajouter'])) {
 // si on souhaite surligner la tâche au clique pour dire qu'elle est terminée
 if (isset($_GET['maj'])) {
 
-<<<<<<< HEAD
-
-    if ($_POST["id"]) {
-        $id = $_POST['id'];
-        $finished_at= date("Y-m-d H:i:s");
-        $statut= 'oui';
-        $maj = $todolist->maj($id,$statut,$finished_at);
-
-    }
-}
-
-//si on souhaite supprimer la tâche
-if (isset($_GET['supprimer'])) {
-
-    //supprimer une tâche de la todolist
-    $connect = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
-=======
 // on sélectionn l'id
 //$_POST['id']=9;
 //  if ($_POST["id"]) {
@@ -84,11 +63,6 @@ if (isset($_GET['supprimer'])) {
 //si on souhaite supprimer la tâche
 if (isset($_GET['supprimer'])) {
   //supprimer une tâche de la todolist
-<<<<<<< HEAD
->>>>>>> remotes/origin/Louise
-
-=======
->>>>>>> remotes/origin/Louise
     // si l'utilisateur clique sur la croix pour supprimer on récupère l'id de la tâche pour la supprimer
     if ($_GET["id"]) {
 

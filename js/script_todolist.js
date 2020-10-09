@@ -1,17 +1,15 @@
-
 //$(document).ready(function() {
-       // auto refresh page after 1 second
-  //     setInterval('refreshPage()', 3000);
-  // });
+// auto refresh page after 1 second
+//     setInterval('refreshPage()', 3000);
+// });
 
-   //function refreshPage() {
-  //     location.reload(); }
-
-
+//function refreshPage() {
+//     location.reload(); }
 
 $(document).ready(function () {
 
   $(document).on('submit', '#todo_formulaire', function (event) {
+
     event.preventDefault();
 
     // GET LIST ID
@@ -21,6 +19,7 @@ $(document).ready(function () {
       var results = regex.exec(location.search);
       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
+
     idlist = getUrlParameter('idlist');
 
 
@@ -55,66 +54,11 @@ $(document).ready(function () {
         error: function (data) {
           console.log(data)
         }
-      });
-
-
-
-  $(document).on('click', '.list-group-item', function(){
-   var id = $(this).data('id');
-   $.ajax({
-     url: "traitement/todolist_process.php?maj",
-    method:"POST",
-    data:{id:id},
-    success:function(data)
-    {
-     $('#list-group-item-'+id).css('text-decoration', 'line-through').fadeOut('slow');
-     $(.done).load(location.href+ .done>*,);
-
+      })
     }
-   })
-  });
 
-          };
+  })
+    
+      
 
-$(.done).load(location.href+ .done>*,)
-
-
-  $(document).on('click', '.badge', function () {
-    var id = $(this).data('id');
-    $.ajax({
-      url: "traitement/todolist_process.php?supprimer",
-      method: "GET",
-      data: {
-        id: id
-      },
-      success: function(data) {
-        $('#list-group-item-' + id).fadeOut('slow');
-      }
-    })
-  });
-
-<<<<<<< HEAD
-      });
-=======
-
-
-});
->>>>>>> remotes/origin/Louise
-
-
-$(function () {
-  $('#description').on('click', function (e) {
-    e.preventDefault();
-    if ($(this).hasClass('active')) {
-      $(this).removeClass('active');
-      $(this).next()
-        .stop()
-        .slideUp(300);
-    } else {
-      $(this).addClass('active');
-      $(this).next()
-        .stop()
-        .slideDown(500);
-    }
-  });
-});
+})

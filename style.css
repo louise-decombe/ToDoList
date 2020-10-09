@@ -14,7 +14,7 @@ header{
   color: white!important;
   margin-left: auto!important;
 }
-.navbar a{
+.navbar a, p{
   color: white!important;
   letter-spacing: 1px;
   font-weight: 500;
@@ -141,6 +141,9 @@ footer{
   font-size: 1.5em;
   color: white;
 }
+/** TO DO LIST */
+
+
 
 /** TO DO LIST FORM **/
 
@@ -175,6 +178,8 @@ footer{
 .lists a{
   color: white;
   font-size: 2em;
+  text-transform: uppercase;
+  letter-spacing: 2.2px;
 }
 
 .big_container_list{
@@ -182,5 +187,9 @@ footer{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#second_sect_todo{
+  display: none;
 }
 

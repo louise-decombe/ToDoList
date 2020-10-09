@@ -159,7 +159,14 @@ class  lists
             echo  $error->getMessage();
         }
     }
+    public function getIdlist($id_user){
+        $req= $this->connect->prepare("SELECT id FROM list WHERE id_utilisateur = ?");
+        $req->execute([$id_user]);
+        $ids_list =$req->fetchall();
 
+        return json_encode($ids_list);
+        
+    }
 
 
     public function getListName($id_list)
@@ -168,7 +175,7 @@ class  lists
         try {
             $req_name = $this->connect->prepare("SELECT nom FROM list WHERE id = ?");
             $req_name->execute([$id_list]);
-            $list_name = $req_name->fetch();
+            $list_name = $req_name->fetchall();
 
             return json_encode($list_name);
         } catch (PDOException $error) {

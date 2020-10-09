@@ -249,7 +249,7 @@ $(document).ready(function () {
                     $('#addform').css("display", "none");
                     $('#cancel').css("display", "none");
                     $('#new_list').css("display", "block");
-
+                    displaymylists();
                     console.log(data.result2);
                 }
 
@@ -269,7 +269,7 @@ $(document).ready(function () {
     function templatelists(id, name) {
         return (`
         <div class="lists">
-        <a href='todolist.php?idlist=${id}' >${name}</a>
+        <a  id= "linktolist${id}" class="linkto" href='todolist.php?idlist=${id}' >${name}</a>
         </div>
         `).trim();
     }
@@ -292,6 +292,8 @@ $(document).ready(function () {
 
                 }
 
+
+
             },
             error: function (data) {
 
@@ -301,7 +303,11 @@ $(document).ready(function () {
 
 
     }
-    setInterval(displaymylists, 500)
+    if(id_list == ''){
+        displaymylists();
+    }
+
+    
 
     /** DISPLAY OPTION SELECT */
 
@@ -340,11 +346,14 @@ $(document).ready(function () {
     $.ajax({
         url: "traitement/displaylistinfo.php",
         type: "post",
+        dataType:'json',
         data: {
             id_list: id_list,
         },
         success: function (data) {
             console.log(data);
+            
+            $('#title_list_name').html("Votre liste " + data[0].nom)
         },
         error: function (data) {
             console.log(data)
@@ -398,6 +407,38 @@ $(document).ready(function () {
         })
 
     })
+    /**DISPLAY ONE LIST */
+
+    function displayonelist(){
+        console.log("ok")
+         $.ajax({
+             url:'traitement/get_ids_lists.php',
+             dataType: "json",
+             success: function(data){
+                 console.log(data)
+                for(let i=0; i < data.length; i++){
+                    console.log(`#linktolist${data[i].id}`)
+                    $('.linkto').click(function(){
+                        console.log("ok");
+                       // $('#first_sect_todo').css("display", "none");
+                        
+                    })
+                }
+
+
+             },
+             error: function (data) {
+                console.log(data)
+               
+            }
+         })
+    }
+    displayonelist();
+  
+    if(id_list != ""){
+        $("#second_sect_todo").css("display", "block")
+    }
+
 
     /** DELETE LIST */
 

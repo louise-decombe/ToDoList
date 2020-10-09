@@ -59,5 +59,18 @@ VALUES(:id_utilisateur,:nom,:statut,:create_at,:finished_at,:description,:assign
   public function supprimer($id)
   {
   }
+
+  public function taskassignto($id_task){
+
+    try{
+      $req = $this->connect->prepare("SELECT assign_to from todo WHERE id =?");
+      $req->execute([$id_task]);
+
+    }catch (PDOException $error) {
+                    echo  $error->getMessage();
+                }
+
+
+  }
 };
 ?>
