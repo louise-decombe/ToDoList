@@ -35,8 +35,8 @@ class Todolist
   public function ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assign_to,$id_list)
   {
 
-    $query = $this->connect->prepare("INSERT INTO todo (id_utilisateur, nom, statut, create_at, finished_at, description, assign_to,id_list)
-VALUES(:id_utilisateur,:nom,:statut,:create_at,:finished_at,:description,:assign_to,:id_list)");
+    $query = $this->connect->prepare("INSERT INTO todo (id_utilisateur, nom, statut, create_at, finished_at, description, assign_to,idlist)
+VALUES(:id_utilisateur,:nom,:statut,:create_at,:finished_at,:description,:assign_to,:idlist)");
     $query->bindParam(':id_utilisateur', $id_utilisateur);
     $query->bindParam(':nom', $nom);
     $query->bindParam(':statut', $statut);
@@ -44,9 +44,8 @@ VALUES(:id_utilisateur,:nom,:statut,:create_at,:finished_at,:description,:assign
     $query->bindParam(':finished_at', $finished_at);
     $query->bindParam(':description', $description);
     $query->bindParam(':assign_to', $assign_to);
-    $query->bindParam(':id_list', $id_list);
+    $query->bindParam(':idlist', $id_list);
     $query->execute();
-
   }
 
   public function maj($statut, $finished_at, $id)

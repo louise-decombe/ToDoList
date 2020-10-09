@@ -1,8 +1,8 @@
 <?php
 require '../class/config.php';
 
-
-$users_list = $newlist->showlistusers(1);
+$id_list=$_POST['id_list'];
+$users_list = $newlist->showlistusers($id_list);
 
 echo $users_list;
 

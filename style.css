@@ -144,17 +144,17 @@ footer{
 
 /** TO DO LIST FORM **/
 
-#cancel{
+#cancel, #cancel_adduser{
   display: none;
   
 }
-#addform{
+#addform, #add_user_tolist{
   display: none;
   padding: 1em;
 }
 
 .list_container{
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -175,5 +175,12 @@ footer{
 .lists a{
   color: white;
   font-size: 2em;
+}
+
+.big_container_list{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
