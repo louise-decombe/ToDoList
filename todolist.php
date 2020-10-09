@@ -164,7 +164,7 @@ if(!isset($_SESSION['login'])){
                   <?php if (isset($_GET['idlist'])) : ?>
                     <?php
                     $idlist = $_GET['idlist'];
-                    $result = $db->query("SELECT * FROM todo WHERE statut='non' AND idlist='$idlist'");
+                    $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$idlist'");
 
                     foreach ($result as $row) {
 
