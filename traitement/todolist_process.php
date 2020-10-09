@@ -9,14 +9,14 @@ if (isset($_GET['ajouter'])) {
 
 
     if ($_POST["nom_tache"]) {
-        $id_utilisateur = $_SESSION['id_utilisateur'];
+        $id_utilisateur = $_SESSION['id'];
         $nom = $_POST['nom_tache'];
         $statut = "non";
         $create_at = date("Y-m-d H:i");
         $finished_at = null;
         $description = $_POST['description'];
-        $assigned_to = null;
-        $id_list ='1';
+         $assigned_to = $_POST['select_user'];
+        $id_list = $_POST['idlist'];
         $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $id_list);
         $last_todo = $todolist->select();
 
@@ -63,11 +63,12 @@ if (isset($_GET['maj'])) {
 //si on souhaite supprimer la tâche
 if (isset($_GET['supprimer'])) {
   //supprimer une tâche de la todolist
+
     // si l'utilisateur clique sur la croix pour supprimer on récupère l'id de la tâche pour la supprimer
     if ($_GET["id"]) {
         $data = array(
-    ':id'  => $_GET['id']
-   );
+            ':id'  => $_GET['id']
+        );
         $query = "DELETE FROM todo WHERE id = :id";
         $statement = $connect->prepare($query);
         if ($statement->execute($data)) {
@@ -75,3 +76,7 @@ if (isset($_GET['supprimer'])) {
         }
     }
 }
+
+
+
+?>

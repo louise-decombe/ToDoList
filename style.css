@@ -144,6 +144,34 @@ footer{
 
 /** TO DO LIST FORM **/
 
+#cancel{
+  display: none;
+  
+}
 #addform{
   display: none;
+  padding: 1em;
+}
+
+.list_container{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.lists{
+  width: 20%;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #026aa7 ;
+  margin: 1em;
+
+}
+.lists a{
+  color: white;
+  font-size: 2em;
 }
