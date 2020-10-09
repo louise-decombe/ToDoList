@@ -305,9 +305,9 @@ $(document).ready(function () {
             id_list: id_list,
         },
         success: function (data) {
-            console.log(data)
+            
             for (let i = 0; i < data.length; i++) {
-                console.log(data[i].login)
+               
                 $('#select_user').append(optionTemplate(data[i].login))
             }
         },
@@ -317,7 +317,7 @@ $(document).ready(function () {
     })
 
 
-    /** SHOW LIST NAME */
+    /** SHOW LIST NAME 
 
     $.ajax({
         url: "traitement/displaylistinfo.php",
@@ -331,9 +331,36 @@ $(document).ready(function () {
         error: function (data) {
             console.log(data)
         }
+    })*/
+    
+    /** ADD USER TO AN EXISTING LIST */
+
+    $("#add_user_tolist").submit(function(){
+
+        let username = $('#add_username').val();
+        console.log(username);
+
+        $.ajax({
+            url:"traitement/add_usertolist.php",
+            type: "post",
+            data:{
+                user_name : username,
+                id_list : id_list,
+    
+            },
+            success: function(data){
+                console.log("ok")
+    
+            },
+            error: function (data) {
+                console.log(data)
+            }
+    
+        })
+
     })
 
-
+    
 
 
 

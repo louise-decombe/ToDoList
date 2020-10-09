@@ -45,7 +45,7 @@ include('class/config.php');
 
   <?php //if(isset($_SESSION['id_utilisateur'])) {
 
-  
+
 
   $id_utilisateur = $_SESSION['id'];
   $todolist->select($id_utilisateur);
@@ -109,6 +109,34 @@ include('class/config.php');
             </div>
           </div>
           <div class="col-md-3">
+
+          </div>
+        </div>
+        <div class="formadduser">
+          <button type="submit" class=" btn btn-info" id="add_user_btn">Ajouter un utilisateur à cette liste</button>
+          <button type="submit" id="cancel_adduser" class="btn btn-danger ml-3">Annuler</button>
+          <div id="error_user"></div>
+          <div id="success_user"></div>
+          <form method="POST" id="add_user_tolist" class="m-3">
+            <div class="form-row">
+              <div class="col m-1">
+
+                <input type="text" id="add_username" name="add_username" class="form-control" placeholder="Nom de l'utilisateur">
+              </div>
+
+            </div>
+
+
+            <div class="d-flex justify-content-end">
+              <button type="submit" id="submit_adduser" class="btn btn-success p-2 m-3">Ajouter cet utilisateur</button>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="row ">
+          <div class="col m-3">
+            <button class="btn btn-danger" type="submit" id="delete_list">Supprimer cette liste</button>
           </div>
         </div>
         <div class="panel-body">
