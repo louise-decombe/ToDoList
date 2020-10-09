@@ -11,14 +11,26 @@ class Todolist
     $this->connect = $this->db->connect();
   }
 
-  public function select($id_utilisateur)
+  public function select()
   {
-    $req = $this->connect->prepare("SELECT * FROM todo WHERE id_utilisateur = ?");
-    $req->execute([$id_utilisateur]);
+    $req = $this->connect->prepare("SELECT * FROM todo ORDER BY id desc LIMIT 1");
+    $req->execute();
     $data_todolist = $req->fetchAll();
 
     return $data_todolist;
   }
+
+
+  public function select_last()
+  {
+    $req = $this->connect->prepare("SELECT * FROM todo WHERE statut='oui' ORDER BY id desc LIMIT 1");
+    $req->execute();
+    $data_todolist = $req->fetchAll();
+
+    return $data_todolist;
+  }
+
+
 
   public function ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assign_to,$id_list)
   {
@@ -33,25 +45,20 @@ VALUES(:id_utilisateur,:nom,:statut,:create_at,:finished_at,:description,:assign
     $query->bindParam(':description', $description);
     $query->bindParam(':assign_to', $assign_to);
     $query->bindParam(':id_list', $id_list);
-
     $query->execute();
+
   }
 
-
-
+  public function maj($statut, $finished_at, $id)
+  {
+    $update = $this->connect->prepare("UPDATE `todo` SET `statut`= ?, `finished_at`= ? WHERE id= ?");
+    $update->execute([$statut, $finished_at, $id]);
+  }
 
 
 
   public function supprimer($id)
   {
   }
-
-  public function maj($id, $finished_at, $statut)
-  {
-    $update = $this->connect->prepare("UPDATE `todo` SET `finished_at`= ?,`statut`= ?,WHERE id= ?");
-    $update->execute([$id, $finished_at, $statut]);
-  }
 };
-
-
 ?>

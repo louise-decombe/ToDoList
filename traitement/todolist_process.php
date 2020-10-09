@@ -6,6 +6,8 @@ require "../class/config.php";
 
 // si on souhaite ajouter une tâche à la todolist
 if (isset($_GET['ajouter'])) {
+
+
     if ($_POST["nom_tache"]) {
         $id_utilisateur = $_SESSION['id'];
         $nom = $_POST['nom_tache'];
@@ -13,23 +15,29 @@ if (isset($_GET['ajouter'])) {
         $create_at = date("Y-m-d H:i");
         $finished_at = null;
         $description = $_POST['description'];
-        $assigned_to = $_POST['select_user'];
+
+         $assigned_to = $_POST['select_user'];
         $id_list = $_POST['idlist'];
         $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $id_list);
+        $last_todo = $todolist->select();
+
+        echo '<a href="#" style="' .'" class="list-group-item" id="list-group-item-' .$last_todo[0]["id"] . '" data-id="' . $last_todo[0]["id"] . '"><b>' . $last_todo[0]["nom"] . '</b><span class="badge" data-id="' . $last_todo[0]["id"] . '">X</span>' . '<section>'.'</section>';
+
     }
 }
-
 
 
 
 // si on souhaite surligner la tâche au clique pour dire qu'elle est terminée
 if (isset($_GET['maj'])) {
 
-    // on sélectionn l'id
+
     if ($_POST["id"]) {
-        $date_finished = date("Y-m-d H:i:s");
         $id = $_POST['id'];
-        $statut = 'oui';
+        $finished_at= date("Y-m-d H:i:s");
+        $statut= 'oui';
+        $maj = $todolist->maj($id,$statut,$finished_at);
+
     }
 }
 

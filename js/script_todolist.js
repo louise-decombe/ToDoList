@@ -23,6 +23,7 @@ $(document).ready(function () {
       let task_name = $('#nom_tache').val();
       let description = $('#description').val();
       let select_user = $('#select_user').val();
+
       $.ajax({
         url: "traitement/todolist_process.php?ajouter",
         method: "POST",
@@ -44,11 +45,14 @@ $(document).ready(function () {
           console.log(data)
         }
       })
+
     }
   });
 
+
   $(document).on('click', '.list-group-item', function () {
     var id = $(this).data('id');
+    function fetchdata(){
     $.ajax({
       url: "traitement/todolist_process.php?maj",
       method: "POST",
@@ -60,8 +64,15 @@ $(document).ready(function () {
       }
     })
 
-
   });
+
+
+
+
+
+
+
+
 
   $(document).on('click', '.badge', function () {
     var id = $(this).data('id');

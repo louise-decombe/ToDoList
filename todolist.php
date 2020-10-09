@@ -152,7 +152,7 @@ include('class/config.php');
             </div>
             <div class="done">
               <?php
-              $result = $db->query("SELECT * FROM todo WHERE statut='oui' AND id_list='$id_list'");
+              $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
 
               foreach ($result as $row) {
 
