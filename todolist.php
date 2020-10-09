@@ -129,12 +129,14 @@ include('class/config.php');
           <br />
           <div class="list-group">
             <div class="todo">
-
+              <?php if(isset($_GET['idlist'])):?>
               <?php
-              $id_list = $_GET['idlist'];
-              $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
+              $idlist = $_GET['idlist'];
+              $result = $db->query("SELECT * FROM todo WHERE statut='non' AND idlist='$idlist'");
 
               foreach ($result as $row) {
+
+                foreach ($result as $row) {
 
                   $style = '';
                   if ($row->statut == 'non') {
@@ -142,14 +144,14 @@ include('class/config.php');
                     echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . '</b><span class="badge" data-id="' . $row->id . '">X</span>' . '<section>' . $row->description . '</section>';
                   }
                 }
+              }
 
               ?>
-
                   </div>
               <div class="done">
 
               <?php
-              $result = $db->query("SELECT * FROM todo WHERE statut='oui' AND id_list='$id_list'");
+              $result = $db->query("SELECT * FROM todo WHERE statut='oui' AND idlist='$idlist'");
 
             foreach ($result as $row) {
              $style = '';
@@ -159,6 +161,7 @@ include('class/config.php');
           }
         }
         ?></div>
+        <?php endif ?>
 
           <?php //} else {
           //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
