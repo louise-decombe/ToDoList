@@ -129,7 +129,7 @@ include('class/config.php');
           <br />
           <div class="list-group">
             <div class="todo">
-
+              <?php if(isset($_GET_['idlist'])):?>
               <?php
               $id_list = $_GET['idlist'];
               $result = $db->query("SELECT * FROM todo WHERE statut='non' AND id_list='$id_list'");
@@ -147,6 +147,7 @@ include('class/config.php');
               }
 
               ?>
+              
 
         echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
 
@@ -167,6 +168,7 @@ include('class/config.php');
           }
         }
         ?></div>
+        <?php endif ?>
 
           <?php //} else {
           //   echo "<center>vous n'avez pas accès à cette page, connectez-vous pour commencer<br/>
