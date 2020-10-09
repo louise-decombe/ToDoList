@@ -136,7 +136,7 @@ class  lists
             $req_delete = $this->connect->prepare("DELETE FROM `list` WHERE id = ?");
             $req_delete->execute([$id_list]);
 
-            return json_encode("msg" => "Cette liste a bien été effacée");
+            return json_encode(["msg" => "Cette liste a bien été effacée"]);
 
         }catch (PDOException $error) {
             echo  $error->getMessage();

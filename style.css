@@ -169,6 +169,7 @@ footer{
   align-items: center;
   background-color: #026aa7 ;
   margin: 1em;
+  border-radius: 10px;
 
 }
 .lists a{
