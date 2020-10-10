@@ -16,9 +16,9 @@ class  lists
     {
 
         try {
-            $req_list = $this->connect->prepare("SELECT * FROM `list` WHERE nom = ? AND id_utilisateur = ?");
+            $req_list = $this->connect->prepare("SELECT * FROM `list` WHERE nom = ? AND id_utilisateur = ? AND id_guest = ?");
 
-            $req_list->execute([$name, $id_user]);
+            $req_list->execute([$name, $id_user, $id_user]);
             $data_name = $req_list->fetchall();
         } catch (PDOException $error) {
             echo  $error->getMessage();
@@ -102,8 +102,8 @@ class  lists
             return json_encode(["erreur" => $error]);
         } else {
             try {
-                $req_check_list = $this->connect->prepare("SELECT * FROM list WHERE id_guest = ? AND  nom = ?");
-                $req_check_list->execute([$data_id[0]['id'], $data_name['nom']]);
+                $req_check_list = $this->connect->prepare("SELECT * FROM list WHERE id_guest = ? AND  nom = ? AND id_utilisateur = ?");
+                $req_check_list->execute([$data_id[0]['id'], $data_name['nom'], $id_user]);
                 $checkedlist = $req_check_list->fetchall();
                 
             } catch (PDOException $error) {
