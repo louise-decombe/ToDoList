@@ -25,12 +25,7 @@ $(document).ready(function () {
                 <label for="password">Votre mot de passe</label>
                 <input type="password" id="password" name="password" class="form-control">
             </div>
-
-
             <button type="submit" id="btn_connect" class="btn btn-success w-50">Valider</button>
-
-
-
         </form>
         <p class="text-center" id="not_registered">Pas de compte? <a href="#" id="register">S'incrire</a></p>
         
@@ -268,9 +263,9 @@ $(document).ready(function () {
 
     function templatelists(id, name) {
         return (`
-        <div class="lists">
-        <a  id= "linktolist${id}" class="linkto" href='todolist.php?idlist=${id}' >${name}</a>
-        </div>
+        
+        <a  id= "linktolist${id}" class="nav-link" href='todolist.php?idlist=${id}' >${name}</a>
+        
         `).trim();
     }
     // $('.list_container').html(templatelists(1, "tests")[0]);
@@ -284,11 +279,12 @@ $(document).ready(function () {
             dataType: "json",
 
             success: function (data) {
+                console.log(data);  
 
-                $('.list_container').empty();
+                $('#nav-list').empty();
                 for (let i = 0; i < data.length; i++) {
 
-                    $('.list_container').append(templatelists(data[i].id, data[i].nom));
+                    $('#nav-list').append(templatelists(data[i].id, data[i].nom));
 
                 }
 
@@ -303,9 +299,9 @@ $(document).ready(function () {
 
 
     }
-    if(id_list == ''){
+    //if(id_list == ''){
         displaymylists();
-    }
+   // }
 
     
 
@@ -353,7 +349,7 @@ $(document).ready(function () {
         success: function (data) {
             console.log(data);
             
-            $('#title_list_name').html("Votre liste " + data[0].nom)
+            $('#title_list_name').append("<h2>Votre liste " + data[0].nom +"</h2>")
         },
         error: function (data) {
             console.log(data)
@@ -418,7 +414,7 @@ $(document).ready(function () {
                  console.log(data)
                 for(let i=0; i < data.length; i++){
                     console.log(`#linktolist${data[i].id}`)
-                    $('.linkto').click(function(){
+                    $('.nav-link').click(function(){
                         console.log("ok");
                        // $('#first_sect_todo').css("display", "none");
                         
@@ -433,7 +429,7 @@ $(document).ready(function () {
             }
          })
     }
-    displayonelist();
+    
   
     if(id_list != ""){
         $("#second_sect_todo").css("display", "block")

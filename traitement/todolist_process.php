@@ -1,23 +1,30 @@
 <?php
 
+$date = new datetime('now', new DateTimeZone('Europe/Paris'));
 
-//on inclut le fichier de config qui charge les classes
+ //on inclut le fichier de config qui charge les classes
 require "../class/config.php";
 
 // si on souhaite ajouter une tâche à la todolist
 if (isset($_GET['ajouter'])) {
 
-
+  
     if ($_POST["nom_tache"]) {
         $id_utilisateur = $_SESSION['id'];
         $nom = $_POST['nom_tache'];
         $statut = "non";
-        $create_at = date("Y-m-d H:i");
+        $create_at = $date->format('Y-m-d H:i');
         $finished_at = null;
         $description = $_POST['description'];
          $assigned_to = $_POST['select_user'];
         $idlist = $_POST['idlist'];
-        $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $idlist);
+
+        $name = $newlist->getListName($idlist);
+        
+        
+        $list_name= json_decode($name);
+        $name_list = $list_name[0]->nom;
+        $result = $todolist->ajout($id_utilisateur, $nom, $statut, $create_at, $finished_at, $description, $assigned_to, $idlist, $name_list);
         $last_todo = $todolist->select();
 
         echo '<a href="#" style="' .'" class="list-group-item" id="list-group-item-' .$last_todo[0]["id"] . '" data-id="' . $last_todo[0]["id"] . '"><b>' . $last_todo[0]["nom"] . '</b><span class="badge" data-id="' . $last_todo[0]["id"] . '">X</span>' . '<section>'.'</section>';
@@ -43,7 +50,7 @@ if (isset($_GET['maj'])) {
          $data = array(
           ':statut'  => 'oui',
           ':id'  => $_POST["id"],
-          ':finished_at' => date("Y-m-d H:i")
+          ':finished_at' => $date->format('Y-m-d H:i')
          );
          $connect = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
          $query = " UPDATE todo

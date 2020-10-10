@@ -18,7 +18,7 @@ $new_result = json_decode($result, true);
 if (isset($new_result['msg']) && $new_result['msg'] == "liste ok") {
 
     if($username != null){
-        $add_user = $newlist->adduser($username, $name);
+        $add_user = $newlist->adduser($username, $name, $id_user);
 
         $new_data = json_encode([
             "result1" => $result,

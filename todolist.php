@@ -1,12 +1,10 @@
 <?php
 
-include('class/config.php');
+session_start();
 if (!isset($_SESSION['login'])) {
   header("Location:index.php");
 }
-if(!isset($_GET['idlist'])){
-  $a = 1;
-}
+
 
 ?>
 <!DOCTYPE html>
@@ -31,18 +29,22 @@ if(!isset($_GET['idlist'])){
     <?php include 'includes/header.php' ?>
   </header>
 
-  <?php //if(isset($_SESSION['id_utilisateur'])) {
-
-
-
-  $id_utilisateur = $_SESSION['id'];
-  $todolist->select($id_utilisateur);
-
-  ?>
 
   <main class="main_todo">
-    <h1 class="text-center" id="title">Mes Listes</h1>
+    
+
     <section id="first_sect_todo">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Mes Listes</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav" id="nav-list">
+
+          </div>
+        </div>
+      </nav>
 
       <div id="error" class="m-3"></div>
       <div id="success" class="m-3"></div>
@@ -75,106 +77,62 @@ if(!isset($_GET['idlist'])){
     </section>
 
     <section id="second_sect_todo">
+    <div id="title_list_name" class="text-center m-3"></div>
+      <article class="list_content">
 
-      <div class="container">
-        <h1 class="text-center" id="title_list_name"></h1>
-        <br />
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <div>
-              <div>
-                <h3 class="panel-title p-3">
-                  <?php
-                  setlocale(LC_TIME, 'fra_fra');
-                  echo strftime('%A %d %B %Y à %H:%M');
-                  ?>
-                </h3>
+        <div class="formadduser">
+          <button type="submit" class=" btn btn-info m-3" id="add_user_btn">Ajouter un utilisateur à cette liste</button>
+          <button type="submit" id="cancel_adduser" class="btn btn-danger m-3">Annuler</button>
+          <div id="error_user"></div>
+          <div id="success_user"></div>
+          <form method="POST" id="add_user_tolist" class="m-3">
+            <div class="">
+              <div class="col m-1">
 
+                <input type="text" id="add_username" name="add_username" class="form-control" placeholder="Nom de l'utilisateur">
               </div>
-              <div class="formadduser">
-                <button type="submit" class=" btn btn-info" id="add_user_btn">Ajouter un utilisateur à cette liste</button>
-                <button type="submit" id="cancel_adduser" class="btn btn-danger ml-3">Annuler</button>
-                <div id="error_user"></div>
-                <div id="success_user"></div>
-                <form method="POST" id="add_user_tolist" class="m-3">
-                  <div class="form-row">
-                    <div class="col m-1">
-
-                      <input type="text" id="add_username" name="add_username" class="form-control" placeholder="Nom de l'utilisateur">
-                    </div>
-
-                  </div>
-
-
-                  <div class="d-flex justify-content-end">
-                    <button type="submit" id="submit_adduser" class="btn btn-success p-2 m-3">Ajouter cet utilisateur</button>
-                  </div>
-
-                </form>
-
+              <div class="d-flex justify-content-end">
+                <button type="submit" id="submit_adduser" class="btn btn-success p-2 m-3">Ajouter cet utilisateur</button>
               </div>
-              <div class="row ">
-                <div class="col m-3">
-                  <button class="btn btn-danger" type="submit" id="delete_list">Supprimer cette liste</button>
-                </div>
-                <div class="col-md-3">
-                </div>
-              </div>
-              <div class="panel-body">
-                <form method="post" id="todo_formulaire">
-                  <span id="message"></span>
-                  <div class="input-group">
-                    <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
-                    <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
-                    <select name="select_user" id="select_user" class="form-control">
 
-                    </select>
+          </form>
 
-                    <div class="input-group-btn">
-                      <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg ml-3"><span class="glyphicon glyphicon-plus m-3">Ajouter</span></button>
-                    </div>
-                  </div>
-                </form>
-                <br />
-                <div class="list-group">
-                  <div class="todo">
-                    <?php if (isset($_GET['idlist'])) : ?>
-                      <?php
-                      $idlist = $_GET['idlist'];
-                      $result = $db->query("SELECT * FROM todo WHERE statut='non' AND idlist='$idlist'");
-                     
-                      foreach ($result as $row) {
+        </div>
 
-                        foreach ($result as $row) {
+        <form method="post" id="todo_formulaire">
+          <span id="message"></span>
+          <div class="input-group">
+            <input type="text" name="nom_tache" id="nom_tache" class="form-control input-lg" placeholder="Tâche..." />
+            <input type="textarea" name="description" id="description" class="form-control input-lg" placeholder="description..." />
+            <select name="select_user" id="select_user" class="form-control">
 
-                          $style = '';
-                          if ($row->statut == 'non') {
+            </select>
 
-                            echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '"><b>' . $row->nom . "  " . '</b>' . '<span class="badge" data-id="' . $row->id . '">X</span>' . '<span class=badge badge-secondary> Assigné à  ' . $row->assign_to . '</span>' . '</a>' . '<section>' . $row->description . '</section>';
-                          }
-                        }
-                      }
+            <div class="input-group-btn">
+              <button type="submit" name="submit" id="submit" class="btn btn-success btn-lg ml-3"><span class="glyphicon glyphicon-plus m-3">Ajouter</span></button>
+            </div>
+          </div>
+        </form>
 
-                      ?>
+        <div class="display_tasks">
+          <div class="task_todo">
+            
+            
+          </div>
+          <div class="task_done">
+            
+          </div>
 
-                  </div>
-                  <div class="done">
+        </div>
+        <div class="row ">
+          <div class="col m-3">
+            <button class="btn btn-danger" type="submit" id="delete_list">Supprimer cette liste</button>
+          </div>
 
-                    <?php
-                      $result = $db->query("SELECT * FROM todo WHERE statut='oui' AND idlist='$idlist'");
+        </div>
 
-                      foreach ($result as $row) {
-                        $style = '';
-                        if ($row->statut == 'oui') {
+      </article>
 
-                          echo '<a href="#" style="' . $style . '" class="list-group-item" id="list-group-item-' . $row->id . '" data-id="' . $row->id . '">' . $row->nom . ' <span class="badge" data-id="' . $row->id . '">X</span></a>';
-                        }
-                      }
-                    ?></div>
-                <?php endif ?>
-
-                <div class="d-flex justify-content-end"><p id="goback" class=" btn btn-info m-3">Retour aux listes</p></div>
-                </div>
 
     </section>
 
