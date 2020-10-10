@@ -7,8 +7,6 @@
    //function refreshPage() {
   //     location.reload(); }
 
-
-
 $(document).ready(function () {
 
   $(document).on('submit', '#todo_formulaire', function (event) {
@@ -70,14 +68,12 @@ $(document).ready(function () {
     success:function(data)
     {
      $('#list-group-item-'+id).css('text-decoration', 'line-through').fadeOut('slow');
-     $(.done).load(location.href+ .done>*,);
+     $('.done').fadeIn('slow');
 
     }
    })
   });
 
-
-$(.done).load(location.href+ .done>*,)
 
 
   $(document).on('click', '.badge', function () {

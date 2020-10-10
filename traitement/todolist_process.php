@@ -63,10 +63,10 @@ if (isset($_GET['maj'])) {
 //si on souhaite supprimer la tâche
 if (isset($_GET['supprimer'])) {
   //supprimer une tâche de la todolist
+$_GET['id']=161;
     // si l'utilisateur clique sur la croix pour supprimer on récupère l'id de la tâche pour la supprimer
     if ($_GET["id"]) {
 
-      $connect = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
 
         $data = array(
             ':id'  => $_GET['id']

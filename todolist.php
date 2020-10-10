@@ -161,7 +161,7 @@ include('class/config.php');
                 if ($row->statut == 'oui') { ?>
 
                   <?php
-                  echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
+                  echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-'.$row->id.'" data-id="'.$row->id.'">'.$row->nom.' <span class="badge" data-id="'.$row->id.'">X</span></a>';
                 }
             }
         ?></div>
