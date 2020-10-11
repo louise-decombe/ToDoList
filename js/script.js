@@ -25,12 +25,7 @@ $(document).ready(function () {
                 <label for="password">Votre mot de passe</label>
                 <input type="password" id="password" name="password" class="form-control">
             </div>
-
-
             <button type="submit" id="btn_connect" class="btn btn-success w-50">Valider</button>
-
-
-
         </form>
         <p class="text-center" id="not_registered">Pas de compte? <a href="#" id="register">S'incrire</a></p>
         
@@ -195,6 +190,20 @@ $(document).ready(function () {
         })
 
     })
+    $('#add_user_btn').click(function () {
+        $('#add_user_tolist').css("display", "block");
+        $(this).css("display", "none");
+        $('#cancel_adduser').css("display", "block")
+        $('#error_user').empty();
+
+        $("#cancel_adduser").click(function () {
+            $('#add_user_tolist').css("display", "none");
+            $(this).css("display", "none");
+            $('#add_user_btn').css("display", "block");
+
+        })
+
+    })
 
     /**PROCESS ADD LIST FORM */
     $('#add_list_form').submit(function (event) {
@@ -235,7 +244,7 @@ $(document).ready(function () {
                     $('#addform').css("display", "none");
                     $('#cancel').css("display", "none");
                     $('#new_list').css("display", "block");
-
+                    displaymylists();
                     console.log(data.result2);
                 }
 
@@ -254,9 +263,9 @@ $(document).ready(function () {
 
     function templatelists(id, name) {
         return (`
-        <div class="lists">
-        <a href='todolist.php?idlist=${id}' >${name}</a>
-        </div>
+        
+        <a  id= "linktolist${id}" class="nav-link" href='todolist.php?idlist=${id}' >${name}</a>
+        
         `).trim();
     }
     // $('.list_container').html(templatelists(1, "tests")[0]);
@@ -270,24 +279,31 @@ $(document).ready(function () {
             dataType: "json",
 
             success: function (data) {
+                console.log(data);  
 
-                $('.list_container').empty();
+                $('#nav-list').empty();
                 for (let i = 0; i < data.length; i++) {
 
-                    $('.list_container').append(templatelists(data[i].id, data[i].nom));
+                    $('#nav-list').append(templatelists(data[i].id, data[i].nom));
 
                 }
 
+
+
             },
             error: function (data) {
-                
+
             }
         })
 
 
 
     }
-    setInterval(displaymylists, 500)
+    //if(id_list == ''){
+        displaymylists();
+   // }
+
+    
 
     /** DISPLAY OPTION SELECT */
 
@@ -296,47 +312,161 @@ $(document).ready(function () {
     }
 
 
+    function selectuser() {
 
-    $.ajax({
-        url: "traitement/select_user.php",
-        type: "post",
-        dataType: "json",
-        data: {
-            id_list: id_list,
-        },
-        success: function (data) {
-            console.log(data)
-            for (let i = 0; i < data.length; i++) {
-                console.log(data[i].login)
-                $('#select_user').append(optionTemplate(data[i].login))
+        $.ajax({
+            url: "traitement/select_user.php",
+            type: "post",
+            dataType: "json",
+            data: {
+                id_list: id_list,
+            },
+            success: function (data) {
+                $('#select_user').empty();
+                $('#select_user').append("<option id='select_user_opt' value=''>Attribuer cette tâche à:</option>")
+                for (let i = 0; i < data.length; i++) {
+
+                    $('#select_user').append(optionTemplate(data[i].login))
+                }
+            },
+            error: function (data) {
+                console.log(data)
             }
-        },
-        error: function (data) {
-            console.log(data)
-        }
-    })
+        })
 
+    }
+    selectuser();
 
     /** SHOW LIST NAME */
 
     $.ajax({
         url: "traitement/displaylistinfo.php",
         type: "post",
-        data:{
+        dataType:'json',
+        data: {
             id_list: id_list,
         },
-        success: function(data){
+        success: function (data) {
             console.log(data);
+            
+            $('#title_list_name').append("<h2>Votre liste " + data[0].nom +"</h2>")
         },
         error: function (data) {
             console.log(data)
         }
     })
 
+    /** ADD USER TO AN EXISTING LIST */
+
+    $("#add_user_tolist").submit(function (event) {
+        event.preventDefault();
+        let username = $('#add_username').val();
+        console.log(username);
+
+        $.ajax({
+            url: "traitement/add_usertolist.php",
+            type: "post",
+            data: {
+                user_name: username,
+                id_list: id_list,
+
+            },
+            success: function (data) {
+                data = JSON.parse(data)
+                console.log(data);
+                if (data.erreur) {
+                    $('#error_user').empty();
+                    $('#error_user').removeClass("alert alert-danger")
+                    $('#error_user').append("<p>" + data.erreur + "</p>")
+                    $('#error_user').addClass("alert alert-danger")
+
+                } else {
+                    $('#error_user').empty();
+                    $('#error_user').removeClass("alert alert-danger")
+
+                    $('#success_user').append("<p>" + data.msg + "</p>")
+                    $('#success_user').addClass("alert alert-success")
+                    $('#add_user_btn').css("display", "block");
+                    $('#cancel_adduser').css("display", "none");
+                    $('#add_user_tolist').css("display", "none");
+
+                    selectuser();
+                }
 
 
+            },
+            error: function (data) {
+                console.log(data)
+                console.log("erreur");
+            }
+
+        })
+
+    })
+    /**DISPLAY ONE LIST */
+
+    function displayonelist(){
+        console.log("ok")
+         $.ajax({
+             url:'traitement/get_ids_lists.php',
+             dataType: "json",
+             success: function(data){
+                 console.log(data)
+                for(let i=0; i < data.length; i++){
+                    console.log(`#linktolist${data[i].id}`)
+                    $('.nav-link').click(function(){
+                        console.log("ok");
+                       // $('#first_sect_todo').css("display", "none");
+                        
+                    })
+                }
 
 
+             },
+             error: function (data) {
+                console.log(data)
+               
+            }
+         })
+    }
+    
+  
+    if(id_list != ""){
+        $("#second_sect_todo").css("display", "block")
+    }
 
+
+    /** DELETE LIST */
+
+    $('#delete_list').click(function () {
+
+        $.ajax({
+            url: "traitement/delete_list.php",
+            type: "post",
+            data: {
+                idlist: id_list,
+            },
+            success: function (data) {
+                if (data.msg != "") {
+                    console.log("ok");
+                    window.location = "todolist.php";
+                }
+
+
+            },
+            error: function (data) {
+                console.log(data)
+
+            }
+        })
+    })
+
+
+    /**GO BACK TO LISTS */
+
+
+    $('#goback').click(function(){
+        window.location = "todolist.php";
+    })
 
 })

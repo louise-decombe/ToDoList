@@ -16,9 +16,9 @@ class  lists
     {
 
         try {
-            $req_list = $this->connect->prepare("SELECT * FROM `list` WHERE nom = ? ");
+            $req_list = $this->connect->prepare("SELECT * FROM `list` WHERE nom = ? AND id_utilisateur = ? AND id_guest = ?");
 
-            $req_list->execute([$name]);
+            $req_list->execute([$name, $id_user, $id_user]);
             $data_name = $req_list->fetchall();
         } catch (PDOException $error) {
             echo  $error->getMessage();
@@ -26,9 +26,12 @@ class  lists
 
         if (count($data_name) == 0) {
             try {
-                $req = $this->connect->prepare("INSERT INTO `list`(`id_utilisateur`, `nom`) VALUES (? , ?)");
-                $req->execute([$id_user, $name]);
+                $req = $this->connect->prepare("INSERT INTO `list`(`id_utilisateur`, `nom`, `id_guest`) VALUES (?, ?, ?)");
+
+                $req->execute([$id_user, $name, $id_user]);
+
                 return json_encode(["msg" => "liste ok"]);
+
             } catch (PDOException $error) {
                 echo  $error->getMessage();
             }
@@ -38,13 +41,13 @@ class  lists
         }
     }
 
-    public function adduser($user_name, $list_name)
+    public function adduser($user_name, $list_name, $id_user)
     {
 
         try {
             $req = $this->connect->prepare("SELECT id FROM utilisateurs WHERE login = ?");
             $req->execute([$user_name]);
-            $data_id = $req->fetch();
+            $data_id = $req->fetchall();
         } catch (PDOException $error) {
             echo  $error->getMessage();
         }
@@ -54,8 +57,8 @@ class  lists
             return json_encode(["erreur" => $error]);
         } else {
             try {
-                $req_check_list = $this->connect->prepare("SELECT * FROM list WHERE id = ? AND  nom = ?");
-                $req_check_list->execute([$data_id['id'], $list_name]);
+                $req_check_list = $this->connect->prepare("SELECT * FROM list WHERE id_utilisateur = ? AND id_guest = ? AND  nom = ?");
+                $req_check_list->execute([$id_user, $data_id[0]['id'], $list_name]);
                 $checkedlist = $req_check_list->fetchall();
             } catch (PDOException $error) {
                 echo  $error->getMessage();
@@ -66,8 +69,54 @@ class  lists
                 return json_encode(["erreur" => $error]);
             } else {
                 try {
-                    $req = $this->connect->prepare("INSERT INTO `list`(`id_utilisateur`, `nom`) VALUES (? , ?)");
-                    $req->execute([$data_id['id'], $list_name]);
+                    $req = $this->connect->prepare("INSERT INTO `list`(`id_utilisateur`, `nom`, `id_guest`) VALUES (? , ?, ?)");
+                    $req->execute([$id_user, $list_name, $data_id[0]['id']]);
+                    return json_encode(["msg" => "Utilisateur ajouté à la liste"]);
+                } catch (PDOException $error) {
+                    echo  $error->getMessage();
+                }
+            }
+        }
+    }
+    public function addusertolist($user_name, $id_list, $id_user)
+    {
+
+        try {
+            $req = $this->connect->prepare("SELECT id FROM utilisateurs WHERE login = ?");
+            $req->execute([$user_name]);
+            $data_id = $req->fetchall();
+           
+        } catch (PDOException $error) {
+            echo  $error->getMessage();
+        }
+        try {
+            $req = $this->connect->prepare("SELECT nom FROM list WHERE id = ?");
+            $req->execute([$id_list]);
+            $data_name = $req->fetch();
+        } catch (PDOException $error) {
+            echo  $error->getMessage();
+        }
+
+        if (count($data_id) == 0) {
+            $error = "Cet utilisateur n'existe pas";
+            return json_encode(["erreur" => $error]);
+        } else {
+            try {
+                $req_check_list = $this->connect->prepare("SELECT * FROM list WHERE id_guest = ? AND  nom = ? AND id_utilisateur = ?");
+                $req_check_list->execute([$data_id[0]['id'], $data_name['nom'], $id_user]);
+                $checkedlist = $req_check_list->fetchall();
+                
+            } catch (PDOException $error) {
+                echo  $error->getMessage();
+            }
+
+            if (isset($checkedlist) && count($checkedlist) != 0) {
+                $error = "L'utilisateur a déja été rajouté à la liste";
+                return json_encode(["erreur" => $error]);
+            } else {
+                try {
+                    $req = $this->connect->prepare("INSERT INTO `list`(`id_utilisateur`, `nom`,`id_guest`) VALUES (? , ?, ?)");
+                    $req->execute([$id_user, $data_name['nom'],$data_id[0]['id'],]);
                     return json_encode(["msg" => "Utilisateur ajouté à la liste"]);
                 } catch (PDOException $error) {
                     echo  $error->getMessage();
@@ -81,11 +130,30 @@ class  lists
 
         try {
 
-            $req = $this->connect->prepare("SELECT * FROM  list WHERE id_utilisateur = ?");
-            $req->execute([$id_user]);
+            $req = $this->connect->prepare("SELECT * FROM  list WHERE id_guest = ? ");
+            $req->execute([ $id_user]);
             $data = $req->fetchall();
 
-            return json_encode($data);
+            
+
+            if(count($data) == 0){
+                try{
+                    $req = $this->connect->prepare("SELECT * FROM  list WHERE id_guest = ? ");
+                    $req->execute([$id_user]);
+                    $data_guest = $req->fetchall();
+
+                    return json_encode($data_guest);
+
+
+                }catch (PDOException $error) {
+                    echo  $error->getMessage();
+                }
+
+            }else{
+                return json_encode($data);
+            }
+
+            
         } catch (PDOException $error) {
             echo  $error->getMessage();
         }
@@ -103,7 +171,7 @@ class  lists
         }
 
         try {
-            $req_login = $this->connect->prepare("SELECT login FROM utilisateurs INNER JOIN list on utilisateurs.id = list.id_utilisateur WHERE list.nom = ? ");
+            $req_login = $this->connect->prepare("SELECT login FROM utilisateurs INNER JOIN list on utilisateurs.id = list.id_guest WHERE list.nom = ? ");
 
             $req_login->execute([$list_name[0]['nom']]);
             $users = $req_login->fetchall();
@@ -113,7 +181,14 @@ class  lists
             echo  $error->getMessage();
         }
     }
+    public function getIdlist($id_user){
+        $req= $this->connect->prepare("SELECT id FROM list WHERE id_utilisateur = ?");
+        $req->execute([$id_user]);
+        $ids_list =$req->fetchall();
 
+        return json_encode($ids_list);
+        
+    }
 
 
     public function getListName($id_list)
@@ -122,7 +197,7 @@ class  lists
         try {
             $req_name = $this->connect->prepare("SELECT nom FROM list WHERE id = ?");
             $req_name->execute([$id_list]);
-            $list_name = $req_name->fetch();
+            $list_name = $req_name->fetchall();
 
             return json_encode($list_name);
         } catch (PDOException $error) {
