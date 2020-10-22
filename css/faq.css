@@ -1,8 +1,9 @@
 
 h2 {
-  color: black;
+  color: blue;
   font-size: 20px;
   margin: 0;
+  padding: 20px;
 }
 
 p {
