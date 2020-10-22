@@ -26,6 +26,9 @@
                     <a class="nav-link" href="logout.php">Se déconnecter</a>
                 <?php endif ?>
             </li>
+            <li>
+nouveau lien
+            </li>
 
         </ul>
     </div>
